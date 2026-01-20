@@ -49,6 +49,10 @@ import { StockReturnsPage } from './pages/stock/StockReturnsPage';
 import { StockWarehousesPage } from './pages/stock/StockWarehousesPage';
 import { StockHistoryPage } from './pages/stock/StockHistoryPage';
 import { PackagingDashboardPage } from './pages/packaging/PackagingDashboardPage';
+import { DeliveryDashboardPage } from './pages/delivery/DeliveryDashboardPage';
+import { DeliveryOrdersPage } from './pages/delivery/DeliveryOrdersPage';
+import { DeliveryPerformancePage } from './pages/delivery/DeliveryPerformancePage';
+import { DeliverySettingsPage } from './pages/delivery/DeliverySettingsPage';
 
 
 function App() {
@@ -260,6 +264,28 @@ function App() {
           <Route path="/packaging/dashboard" element={
             <MainLayout>
               <PackagingDashboardPage />
+            </MainLayout>
+          } />
+
+          {/* Delivery Agent Routes - Using MainLayout */}
+          <Route path="/delivery/dashboard" element={
+            <MainLayout>
+              <DeliveryDashboardPage />
+            </MainLayout>
+          } />
+          <Route path="/delivery/orders" element={
+            <MainLayout>
+              <DeliveryOrdersPage />
+            </MainLayout>
+          } />
+          <Route path="/delivery/performance" element={
+            <MainLayout>
+              <DeliveryPerformancePage />
+            </MainLayout>
+          } />
+          <Route path="/delivery/settings" element={
+            <MainLayout>
+              <DeliverySettingsPage />
             </MainLayout>
           } />
 

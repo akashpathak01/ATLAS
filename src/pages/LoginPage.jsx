@@ -31,6 +31,8 @@ export function LoginPage() {
                 navigate('/stock/dashboard');
             } else if (user.role === 'Packaging Agent') {
                 navigate('/packaging/dashboard');
+            } else if (user.role === 'Delivery Agent') {
+                navigate('/delivery/dashboard');
             } else {
                 // Fallback for other roles (which might be broken if /dashboard doesn't exist)
                 navigate('/admin/dashboard');

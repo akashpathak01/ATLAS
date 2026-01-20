@@ -86,9 +86,10 @@ const roleMenus = {
         { icon: LayoutDashboard, label: 'Dashboard', href: '/packaging/dashboard' },
     ],
     'Delivery Agent': [
-        { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
-        { icon: Truck, label: 'Delivery', href: '/delivery' },
-        { icon: ShoppingCart, label: 'Orders', href: '/orders' },
+        { icon: LayoutDashboard, label: 'Dashboard', href: '/delivery/dashboard' },
+        { icon: ShoppingCart, label: 'Orders', href: '/delivery/orders' },
+        { icon: PieChart, label: 'Performance', href: '/delivery/performance' },
+        { icon: Settings, label: 'Settings', href: '/delivery/settings' },
     ],
 };
 
