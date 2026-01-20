@@ -51,9 +51,11 @@ const roleMenus = {
     ],
     'Seller': [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
-        { icon: Package, label: 'Products', href: '/products' },
         { icon: ShoppingCart, label: 'Orders', href: '/orders' },
+        { icon: Warehouse, label: 'Inventory', href: '/inventory' },
+        { icon: Package, label: 'Products', href: '/products' },
         { icon: DollarSign, label: 'Finance', href: '/finance' },
+        { icon: Globe, label: 'Sourcing', href: '/sourcing' },
     ],
     'Call Center Agent': [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },

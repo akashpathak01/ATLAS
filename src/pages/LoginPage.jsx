@@ -162,8 +162,32 @@ export function LoginPage() {
                                             <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">superadmin@atlas.com / admin123</span>
                                         </div>
                                         <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
+                                            <span className="font-medium">Admin:</span>
+                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">admin@atlas.com / admin123</span>
+                                        </div>
+                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
                                             <span className="font-medium">Seller:</span>
                                             <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">seller@atlas.com / seller123</span>
+                                        </div>
+                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
+                                            <span className="font-medium">Call Center:</span>
+                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">callcenter@atlas.com / callcenter123</span>
+                                        </div>
+                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
+                                            <span className="font-medium">Manager:</span>
+                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">manager@atlas.com / manager123</span>
+                                        </div>
+                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
+                                            <span className="font-medium">Stock Keeper:</span>
+                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">stockkeeper@atlas.com / stock123</span>
+                                        </div>
+                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
+                                            <span className="font-medium">Packaging:</span>
+                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">packaging@atlas.com / package123</span>
+                                        </div>
+                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
+                                            <span className="font-medium">Delivery:</span>
+                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">delivery@atlas.com / delivery123</span>
                                         </div>
                                     </div>
                                 </div>
