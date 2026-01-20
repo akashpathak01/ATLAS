@@ -1,0 +1,141 @@
+// Admin Dummy Data
+// All static data for Admin pages
+
+// Sellers Page Data
+export const adminSellersData = [
+    { id: 1, name: 'Tech Store LLC', email: 'contact@techstore.com', phone: '+971-50-123-4567', products: 45, revenue: 'AED 125,000', status: 'Active', joinDate: '2024-01-10' },
+    { id: 2, name: 'Fashion Hub', email: 'info@fashionhub.com', phone: '+971-50-234-5678', products: 120, revenue: 'AED 89,500', status: 'Active', joinDate: '2024-02-15' },
+    { id: 3, name: 'Home Essentials', email: 'sales@homeessentials.com', phone: '+971-50-345-6789', products: 78, revenue: 'AED 67,200', status: 'Pending', joinDate: '2024-03-20' },
+    { id: 4, name: 'Sports World', email: 'support@sportsworld.com', phone: '+971-50-456-7890', products: 92, revenue: 'AED 54,800', status: 'Active', joinDate: '2024-04-25' },
+];
+
+// Orders Page Data
+export const adminOrdersData = [
+    { id: '#ORD-2601-001', customer: 'Ahmed Ali', items: 3, total: 'AED 450', status: 'Processing', date: '2026-01-20', seller: 'Tech Store LLC' },
+    { id: '#ORD-2601-002', customer: 'Fatima Hassan', items: 1, total: 'AED 120', status: 'Shipped', date: '2026-01-20', seller: 'Fashion Hub' },
+    { id: '#ORD-2601-003', customer: 'Mohammed Khalid', items: 5, total: 'AED 890', status: 'Delivered', date: '2026-01-19', seller: 'Home Essentials' },
+    { id: '#ORD-2601-004', customer: 'Layla Ibrahim', items: 2, total: 'AED 340', status: 'Pending', date: '2026-01-19', seller: 'Sports World' },
+    { id: '#ORD-2601-005', customer: 'Omar Saeed', items: 4, total: 'AED 670', status: 'Cancelled', date: '2026-01-18', seller: 'Tech Store LLC' },
+];
+
+export const adminOrderStats = {
+    total: 1247,
+    pending: 45,
+    processing: 89,
+    shipped: 234,
+    delivered: 856,
+    cancelled: 23
+};
+
+// Products Page Data
+export const adminProductsData = [
+    { id: 'PRD-001', name: 'Wireless Headphones', category: 'Electronics', price: 'AED 299', stock: 45, seller: 'Tech Store LLC', status: 'In Stock' },
+    { id: 'PRD-002', name: 'Cotton T-Shirt', category: 'Fashion', price: 'AED 89', stock: 120, seller: 'Fashion Hub', status: 'In Stock' },
+    { id: 'PRD-003', name: 'Kitchen Blender', category: 'Home', price: 'AED 199', stock: 5, seller: 'Home Essentials', status: 'Low Stock' },
+    { id: 'PRD-004', name: 'Running Shoes', category: 'Sports', price: 'AED 349', stock: 0, seller: 'Sports World', status: 'Out of Stock' },
+    { id: 'PRD-005', name: 'Smart Watch', category: 'Electronics', price: 'AED 599', stock: 78, seller: 'Tech Store LLC', status: 'In Stock' },
+];
+
+// Inventory Page Data
+export const adminInventoryData = [
+    { id: 'INV-001', product: 'Wireless Headphones', sku: 'WH-2024-001', quantity: 45, location: 'Warehouse A', lastUpdated: '2026-01-20' },
+    { id: 'INV-002', product: 'Cotton T-Shirt', sku: 'CT-2024-002', quantity: 120, location: 'Warehouse B', lastUpdated: '2026-01-20' },
+    { id: 'INV-003', product: 'Kitchen Blender', sku: 'KB-2024-003', quantity: 5, location: 'Warehouse A', lastUpdated: '2026-01-19' },
+    { id: 'INV-004', product: 'Running Shoes', sku: 'RS-2024-004', quantity: 0, location: 'Warehouse C', lastUpdated: '2026-01-18' },
+];
+
+export const adminInventoryStats = {
+    totalItems: 2456,
+    lowStock: 12,
+    outOfStock: 5,
+    totalValue: 'AED 1,245,000'
+};
+
+// Finance Page Data
+export const adminFinanceData = {
+    revenue: {
+        today: 'AED 12,450',
+        thisWeek: 'AED 89,340',
+        thisMonth: 'AED 345,670',
+        total: 'AED 2,456,890'
+    },
+    pendingPayments: 'AED 45,670',
+    transactions: []
+};
+
+// Sourcing Page Data
+export const adminSourcingData = {
+    stats: {
+        pending: 12,
+        approved: 18
+    },
+    requests: [
+        { id: 'SRC-001', product: 'Wireless Earbuds', supplier: 'Global Tech Suppliers', quantity: 500, status: 'Pending', requestDate: '2026-01-18', expectedDate: '2026-02-15' },
+        { id: 'SRC-002', product: 'Yoga Mats', supplier: 'Fitness Wholesale', quantity: 200, status: 'Approved', requestDate: '2026-01-15', expectedDate: '2026-02-10' },
+    ]
+};
+
+// Packaging Page Data
+export const adminPackagingData = {
+    stats: {
+        readyToPack: 23,
+        inProgress: 15,
+        packed: 156,
+        shipped: 234
+    },
+    orders: [
+        { id: '#ORD-2601-001', items: 3, status: 'Ready', assignedTo: 'Packer 1', priority: 'High' },
+        { id: '#ORD-2601-002', items: 1, status: 'In Progress', assignedTo: 'Packer 2', priority: 'Normal' },
+    ],
+    materials: [
+        { name: 'Small Boxes', quantity: 450, unit: 'pcs', status: 'Sufficient' },
+        { name: 'Medium Boxes', quantity: 89, unit: 'pcs', status: 'Low' },
+        { name: 'Bubble Wrap', quantity: 12, unit: 'rolls', status: 'Critical' },
+    ]
+};
+
+// Call Center Page Data
+export const adminCallCenterData = {
+    stats: {
+        totalOrders: 67,
+        pendingApproval: 1,
+        activeAgents: 1,
+        approvedToday: 0
+    },
+    pendingOrders: [
+        { id: '#260117001', customer: 'dummy', status: 'Callcenter_Review', createdDate: 'Jan 17, 2026 00:46' }
+    ],
+    approvedOrders: []
+};
+
+// Delivery Page Data
+export const adminDeliveryData = {
+    stats: {
+        totalDeliveries: 456,
+        inTransit: 89,
+        delivered: 345,
+        failed: 12,
+        pending: 10
+    },
+    shippingCompanies: [
+        { name: 'Emirates Post', orders: 45, onTimeRate: '96%', status: 'Active' },
+        { name: 'Aramex', orders: 32, onTimeRate: '94%', status: 'Active' },
+        { name: 'DHL', orders: 12, onTimeRate: '98%', status: 'Active' },
+    ],
+    returned: [],
+    pendingConfirmation: []
+};
+
+// Subscribers Page Data
+export const adminSubscribersData = [
+    { id: 1, email: 'subscriber1@example.com', name: 'Ali Ahmed', subscribed: '2024-06-15', status: 'Active', plan: 'Premium' },
+    { id: 2, email: 'subscriber2@example.com', name: 'Sara Mohammed', subscribed: '2024-07-20', status: 'Active', plan: 'Basic' },
+    { id: 3, email: 'subscriber3@example.com', name: 'Khalid Hassan', subscribed: '2024-08-10', status: 'Inactive', plan: 'Premium' },
+    { id: 4, email: 'subscriber4@example.com', name: 'Noor Fatima', subscribed: '2024-09-05', status: 'Active', plan: 'Basic' },
+];
+
+export const adminSubscribersStats = {
+    total: 245,
+    active: 198,
+    inactive: 47
+};

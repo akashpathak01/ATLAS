@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -26,14 +27,15 @@ export function AuthProvider({ children }) {
             const userObj = { email, role: userData.role, name: userData.name };
             setUser(userObj);
             localStorage.setItem('atlas_user', JSON.stringify(userObj));
-            return true;
+            return userObj;
         }
-        return false;
+        return null;
     };
 
     const logout = () => {
         setUser(null);
         localStorage.removeItem('atlas_user');
+        window.location.href = '/login';
     };
 
     return (

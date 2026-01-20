@@ -13,9 +13,28 @@ export function LoginPage() {
         e.preventDefault();
         setError('');
 
-        const success = login(email, password);
-        if (success) {
-            navigate('/dashboard');
+        const user = login(email, password);
+        if (user) {
+            if (user.role === 'Admin') {
+                navigate('/admin/dashboard');
+            } else if (user.role === 'Super Admin') {
+                // For now redirect Super Admin to admin dashboard as well since /dashboard was removed
+                // In a real scenario, we might want to restore /dashboard or update Super Admin routes
+                navigate('/admin/dashboard');
+            } else if (user.role === 'Seller') {
+                navigate('/seller/dashboard');
+            } else if (user.role === 'Call Center Agent') {
+                navigate('/call-center/dashboard');
+            } else if (user.role === 'Call Center Manager') {
+                navigate('/manager/dashboard');
+            } else if (user.role === 'Stock Keeper') {
+                navigate('/stock/dashboard');
+            } else if (user.role === 'Packaging Agent') {
+                navigate('/packaging/dashboard');
+            } else {
+                // Fallback for other roles (which might be broken if /dashboard doesn't exist)
+                navigate('/admin/dashboard');
+            }
         } else {
             setError('Invalid email or password');
         }
@@ -182,7 +201,7 @@ export function LoginPage() {
                                             <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">stockkeeper@atlas.com / stock123</span>
                                         </div>
                                         <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
-                                            <span className="font-medium">Packaging:</span>
+                                            <span className="font-medium">Packaging Agent:</span>
                                             <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">packaging@atlas.com / package123</span>
                                         </div>
                                         <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
