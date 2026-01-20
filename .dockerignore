@@ -1,0 +1,39 @@
+# Docker Ignore - Prevent Railway from detecting Node.js
+
+# Node.js files (prevent auto-detection as Node app)
+node_modules/
+package.json
+package-lock.json
+playwright.config.js
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Django
+*.log
+db.sqlite3
+
+# Tests
+tests/
+test_*.py
+playwright-report/
+test-results/
+
+# Documentation
+*.md
+!README.md
+
+# Git
+.git/
+.gitignore
+
+# Environment
+.env
+venv/
+env/
+
+# Static (collected during build)
+staticfiles/
+media/

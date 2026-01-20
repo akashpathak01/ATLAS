@@ -1,0 +1,4 @@
+This is the DJANGO Atlas CRM deployment.
+If you see this file, the correct code is deployed.
+Deployment timestamp: December 5, 2025 19:15 UTC
+Django Application - NOT Next.js
