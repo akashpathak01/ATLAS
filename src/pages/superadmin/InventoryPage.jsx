@@ -1,88 +1,148 @@
+
 import React from 'react';
-import { Warehouse, AlertTriangle, TrendingDown } from 'lucide-react';
 import { inventoryData, inventoryStats } from '../../data/superAdminDummyData';
+import { Search, AlertTriangle, Package, Warehouse, DollarSign, RefreshCw, Plus, ArrowRight, Truck } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function InventoryPage() {
+    const navigate = useNavigate();
+
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold text-gray-900">Inventory Dashboard</h1>
-                <p className="text-sm text-gray-600 mt-1">Monitor stock levels and inventory</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <div className="text-sm text-gray-600">Total Items</div>
-                            <div className="text-2xl font-bold text-gray-900 mt-1">{inventoryStats.totalItems}</div>
-                        </div>
-                        <Warehouse className="w-10 h-10 text-blue-600" />
-                    </div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-2xl font-bold text-gray-900">Inventory and Warehouse</h1>
+                    <p className="text-sm text-gray-600 mt-1">Monitor and manage your product inventory efficiently</p>
                 </div>
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <div className="text-sm text-gray-600">Low Stock</div>
-                            <div className="text-2xl font-bold text-yellow-600 mt-1">{inventoryStats.lowStock}</div>
-                        </div>
-                        <AlertTriangle className="w-10 h-10 text-yellow-600" />
-                    </div>
-                </div>
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <div className="text-sm text-gray-600">Out of Stock</div>
-                            <div className="text-2xl font-bold text-red-600 mt-1">{inventoryStats.outOfStock}</div>
-                        </div>
-                        <TrendingDown className="w-10 h-10 text-red-600" />
-                    </div>
-                </div>
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <div className="text-sm text-gray-600">Total Value</div>
-                            <div className="text-2xl font-bold text-green-600 mt-1">{inventoryStats.totalValue}</div>
-                        </div>
-                        <svg className="w-10 h-10 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd" />
-                        </svg>
-                    </div>
+                <div className="flex gap-3">
+                    <button
+                        onClick={() => navigate('/admin/inventory')}
+                        className="flex items-center px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                    >
+                        <Warehouse className="w-4 h-4 mr-2" />
+                        Dashboard
+                    </button>
+                    <button
+                        onClick={() => navigate('/admin/products/add')}
+                        className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Product
+                    </button>
+                    <button
+                        onClick={() => navigate('/admin/products')}
+                        className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                    >
+                        <Package className="w-4 h-4 mr-2" />
+                        View All Products
+                    </button>
                 </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div className="px-6 py-4 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-900">Inventory Items</h2>
+            {/* Inventory Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div className="flex items-center justify-between mb-4">
+                        <div>
+                            <p className="text-sm text-gray-500 font-medium">Total Products</p>
+                            <h3 className="text-3xl font-bold text-gray-900 mt-2">{inventoryStats.totalItems}</h3>
+                        </div>
+                        <div className="p-3 bg-blue-50 rounded-xl">
+                            <Package className="w-6 h-6 text-blue-600" />
+                        </div>
+                    </div>
+                    <button onClick={() => navigate('/admin/products')} className="text-blue-600 text-sm font-medium hover:text-blue-700 flex items-center">
+                        View details <ArrowRight className="w-4 h-4 ml-1" />
+                    </button>
                 </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead className="bg-gray-50 border-b border-gray-200">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Updated</th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {inventoryData.map((item) => (
-                                <tr key={item.id} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item.product}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.sku}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <span className={`text-sm font-semibold ${item.quantity === 0 ? 'text-red-600' : item.quantity < 10 ? 'text-yellow-600' : 'text-green-600'}`}>
-                                            {item.quantity}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.location}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.lastUpdated}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div className="flex items-center justify-between mb-4">
+                        <div>
+                            <p className="text-sm text-gray-500 font-medium">Low Stock Items</p>
+                            <h3 className="text-3xl font-bold text-gray-900 mt-2">{inventoryStats.lowStock}</h3>
+                        </div>
+                        <div className="p-3 bg-red-50 rounded-xl">
+                            <AlertTriangle className="w-6 h-6 text-red-600" />
+                        </div>
+                    </div>
+                    <button className="text-red-600 text-sm font-medium hover:text-red-700 flex items-center">
+                        View details <ArrowRight className="w-4 h-4 ml-1" />
+                    </button>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div className="flex items-center justify-between mb-4">
+                        <div>
+                            <p className="text-sm text-gray-500 font-medium">Warehouses</p>
+                            <h3 className="text-3xl font-bold text-gray-900 mt-2">4</h3>
+                        </div>
+                        <div className="p-3 bg-purple-50 rounded-xl">
+                            <Warehouse className="w-6 h-6 text-purple-600" />
+                        </div>
+                    </div>
+                    <button onClick={() => navigate('/admin/inventory/warehouses')} className="text-purple-600 text-sm font-medium hover:text-purple-700 flex items-center">
+                        View details <ArrowRight className="w-4 h-4 ml-1" />
+                    </button>
+                </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="mb-6">
+                    <h2 className="text-lg font-bold text-gray-900">Quick Actions</h2>
+                    <p className="text-sm text-gray-500 mt-1">Common inventory management tasks</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <button
+                        onClick={() => navigate('/admin/products/add')}
+                        className="flex items-center p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-left group"
+                    >
+                        <div className="p-2 bg-blue-50 rounded-lg mr-4 group-hover:bg-blue-100 transition-colors">
+                            <Plus className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div>
+                            <h3 className="font-semibold text-gray-900">Add Product</h3>
+                            <p className="text-xs text-gray-500 mt-0.5">Create new product</p>
+                        </div>
+                    </button>
+
+                    <button
+                        onClick={() => navigate('/admin/products')}
+                        className="flex items-center p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-left group"
+                    >
+                        <div className="p-2 bg-green-50 rounded-lg mr-4 group-hover:bg-green-100 transition-colors">
+                            <Package className="w-5 h-5 text-green-600" />
+                        </div>
+                        <div>
+                            <h3 className="font-semibold text-gray-900">View Products</h3>
+                            <p className="text-xs text-gray-500 mt-0.5">Browse all products</p>
+                        </div>
+                    </button>
+
+                    <button className="flex items-center p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-left group">
+                        <div className="p-2 bg-purple-50 rounded-lg mr-4 group-hover:bg-purple-100 transition-colors">
+                            <Truck className="w-5 h-5 text-purple-600" />
+                        </div>
+                        <div>
+                            <h3 className="font-semibold text-gray-900">Inventory Movements</h3>
+                            <p className="text-xs text-gray-500 mt-0.5">View stock movements</p>
+                        </div>
+                    </button>
+
+                    <button
+                        onClick={() => navigate('/admin/inventory/warehouses')}
+                        className="flex items-center p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-left group"
+                    >
+                        <div className="p-2 bg-orange-50 rounded-lg mr-4 group-hover:bg-orange-100 transition-colors">
+                            <Warehouse className="w-5 h-5 text-orange-600" />
+                        </div>
+                        <div>
+                            <h3 className="font-semibold text-gray-900">Warehouses</h3>
+                            <p className="text-xs text-gray-500 mt-0.5">Manage warehouses</p>
+                        </div>
+                    </button>
                 </div>
             </div>
         </div>

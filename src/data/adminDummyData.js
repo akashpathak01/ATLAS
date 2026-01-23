@@ -63,6 +63,28 @@ export const adminFinanceData = {
     transactions: []
 };
 
+export const adminFinanceStats = {
+    totalRevenue: 'AED 1,245,000',
+    todaysSales: 'AED 12,450',
+    pendingPayments: 12,
+    monthlyGrowth: '15%'
+};
+
+export const adminPaymentsData = [
+    { id: 'PAY-001', orderId: '#ORD-001', customer: 'Ahmed Ali', amount: 'AED 450', method: 'Credit Card', status: 'Completed', date: '2024-03-20' },
+    { id: 'PAY-002', orderId: '#ORD-002', customer: 'Sarah Smith', amount: 'AED 1,200', method: 'Bank Transfer', status: 'Pending', date: '2024-03-19' },
+    { id: 'PAY-003', orderId: '#ORD-003', customer: 'John Doe', amount: 'AED 850', method: 'Cash', status: 'Completed', date: '2024-03-18' },
+    { id: 'PAY-004', orderId: '#ORD-004', customer: 'Fatima Omar', amount: 'AED 3,400', method: 'Credit Card', status: 'Failed', date: '2024-03-17' },
+    { id: 'PAY-005', orderId: '#ORD-005', customer: 'Mike Ross', amount: 'AED 220', method: 'Wallet', status: 'Completed', date: '2024-03-16' },
+];
+
+export const adminPaymentPlatformsData = [
+    { id: 1, name: 'Stripe', type: 'Payment Gateway', status: 'Active', transactions: 1250, volume: 'AED 450,000' },
+    { id: 2, name: 'PayPal', type: 'Wallet', status: 'Active', transactions: 850, volume: 'AED 220,000' },
+    { id: 3, name: 'Bank Transfer', type: 'Offline', status: 'Active', transactions: 45, volume: 'AED 1,500,000' },
+    { id: 4, name: 'Cash on Delivery', type: 'Offline', status: 'Active', transactions: 2200, volume: 'AED 180,000' },
+];
+
 // Sourcing Page Data
 export const adminSourcingData = {
     stats: {
@@ -139,3 +161,38 @@ export const adminSubscribersStats = {
     active: 198,
     inactive: 47
 };
+
+
+
+
+export const adminSourcingRequests = [
+    { id: 'SRC-001', product: 'Wireless Earbuds', supplier: 'TechGlobal', status: 'Pending', date: '2024-03-20', type: 'Electronics' },
+    { id: 'SRC-002', product: 'Cotton T-Shirts', supplier: 'FabricsCorp', status: 'Approved', date: '2024-03-19', type: 'Apparel' },
+    { id: 'SRC-003', product: 'Smart Watch', supplier: 'GadgetHub', status: 'Pending', date: '2024-03-18', type: 'Electronics' },
+    { id: 'SRC-004', product: 'Leather Wallet', supplier: 'AccessoriesCo', status: 'In Review', date: '2024-03-17', type: 'Accessories' },
+];
+
+export const adminSourcingStats = {
+    pendingRequests: 12,
+    approvedRequests: 45,
+    totalSuppliers: 28,
+    avgProcessingTime: '2 Days'
+};
+
+
+
+
+export const adminSuppliersData = [
+    { id: 1, name: 'TechGlobal', category: 'Electronics', contactPerson: 'John Doe', email: 'john@techglobal.com', phone: '+971 50 123 4567', country: 'China', status: 'Active' },
+    { id: 2, name: 'FabricsCorp', category: 'Apparel', contactPerson: 'Jane Smith', email: 'jane@fabricscorp.com', phone: '+91 98 765 43210', country: 'India', status: 'Active' },
+    { id: 3, name: 'GadgetHub', category: 'Electronics', contactPerson: 'Mike Johnson', email: 'mike@gadgethub.com', phone: '+86 139 1234 5678', country: 'China', status: 'Inactive' },
+    { id: 4, name: 'AccessoriesCo', category: 'Accessories', contactPerson: 'Sarah Wilson', email: 'sarah@accessoriesco.com', phone: '+84 90 123 4567', country: 'Vietnam', status: 'Active' },
+];
+
+// Warehouses Page Data
+export const adminWarehousesData = [
+    { id: 1, name: 'Dubai Main Warehouse', location: 'Dubai Investment Park', description: 'Main distribution center for Dubai region', status: 'Active' },
+    { id: 2, name: 'Abu Dhabi Hub', location: 'Mussafah Industrial Area', description: 'Regional hub for Abu Dhabi and Al Ain', status: 'Active' },
+    { id: 3, name: 'Sharjah Storage', location: 'Sharjah Industrial Area', description: 'Overflow storage and returns processing', status: 'Inactive' },
+    { id: 4, name: 'Northern Emirates Depot', location: 'Ras Al Khaimah', description: 'Serving Northern Emirates', status: 'Active' },
+];

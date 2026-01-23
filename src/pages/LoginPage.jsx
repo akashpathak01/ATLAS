@@ -178,38 +178,29 @@ export function LoginPage() {
                                 <div className="mt-3 text-xs text-blue-700 space-y-2">
                                     <p className="font-semibold mb-2">Try the platform with these accounts:</p>
                                     <div className="grid grid-cols-1 gap-2">
-                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
-                                            <span className="font-medium">Super Admin:</span>
-                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">superadmin@atlas.com / admin123</span>
-                                        </div>
-                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
-                                            <span className="font-medium">Admin:</span>
-                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">admin@atlas.com / admin123</span>
-                                        </div>
-                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
-                                            <span className="font-medium">Seller:</span>
-                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">seller@atlas.com / seller123</span>
-                                        </div>
-                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
-                                            <span className="font-medium">Call Center:</span>
-                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">callcenter@atlas.com / callcenter123</span>
-                                        </div>
-                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
-                                            <span className="font-medium">Manager:</span>
-                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">manager@atlas.com / manager123</span>
-                                        </div>
-                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
-                                            <span className="font-medium">Stock Keeper:</span>
-                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">stockkeeper@atlas.com / stock123</span>
-                                        </div>
-                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
-                                            <span className="font-medium">Packaging Agent:</span>
-                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">packaging@atlas.com / package123</span>
-                                        </div>
-                                        <div className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50">
-                                            <span className="font-medium">Delivery:</span>
-                                            <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded">delivery@atlas.com / delivery123</span>
-                                        </div>
+                                        {[
+                                            { role: 'Super Admin', creds: 'superadmin@atlas.com / admin123' },
+                                            { role: 'Admin', creds: 'admin@atlas.com / admin123' },
+                                            { role: 'Seller', creds: 'seller@atlas.com / seller123' },
+                                            { role: 'Call Center', creds: 'callcenter@atlas.com / callcenter123' },
+                                            { role: 'Manager', creds: 'manager@atlas.com / manager123' },
+                                            { role: 'Stock Keeper', creds: 'stockkeeper@atlas.com / stock123' },
+                                            { role: 'Packaging Agent', creds: 'packaging@atlas.com / package123' },
+                                            { role: 'Delivery', creds: 'delivery@atlas.com / delivery123' },
+                                        ].map((item, idx) => (
+                                            <div
+                                                key={idx}
+                                                onClick={() => {
+                                                    const [e, p] = item.creds.split(' / ');
+                                                    setEmail(e);
+                                                    setPassword(p);
+                                                }}
+                                                className="flex justify-between items-center bg-white/60 rounded-lg px-3 py-2 border border-blue-100/50 hover:bg-blue-100/50 hover:border-blue-200 cursor-pointer transition-all active:scale-[0.98] group/item"
+                                            >
+                                                <span className="font-medium group-hover/item:text-blue-900">{item.role}:</span>
+                                                <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded group-hover/item:bg-white group-hover/item:shadow-sm">{item.creds}</span>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
