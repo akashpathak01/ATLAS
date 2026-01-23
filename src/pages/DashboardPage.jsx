@@ -4,10 +4,13 @@ import { AdminDashboard } from '../components/dashboard/AdminDashboard';
 import { SuperAdminDashboard } from '../components/dashboard/SuperAdminDashboard';
 import { CallCenterDashboard } from '../components/dashboard/CallCenterDashboard';
 import { ManagerDashboard } from '../components/dashboard/ManagerDashboard';
+import { SellerDashboard } from '../components/dashboard/SellerDashboard';
 
 export function DashboardPage() {
     const { user } = useAuth();
-    const role = user?.role || 'Super Admin'; // Fallback for debugging
+    // Default to Seller view for testing the new dashboard
+    // const role = user?.role || 'Super Admin'; 
+    const role = 'Seller'; // FORCED for preview as per user request
 
     if (role === 'Admin') {
         return <AdminDashboard />;
@@ -21,7 +24,9 @@ export function DashboardPage() {
         return <ManagerDashboard />;
     }
 
-    // Default to Super Admin view for Super Admin and other roles for now
-    // (Other roles can have their own dashboards added later)
+    if (role === 'Seller') {
+        return <SellerDashboard />;
+    }
+
     return <SuperAdminDashboard />;
 }

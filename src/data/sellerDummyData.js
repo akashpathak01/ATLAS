@@ -50,10 +50,16 @@ export const sellerProductsData = [
 
 export const sellerFinanceData = {
     stats: {
-        totalRevenue: 'AED 0',
-        monthlyRevenue: 'AED 0',
-        pendingPayments: 'AED 0',
-        commission: 'AED 0'
+        totalRevenue: 'AED 42,850.00',
+        monthlyRevenue: 'AED 12,400.00',
+        pendingPayments: 'AED 5,200.00',
+        commission: 'AED 3,640.00'
     },
-    transactions: []
+    transactions: [
+        { id: 'TXN-100234', date: 'Jan 20, 2026', desc: 'Order #260117007 Payout', type: 'Payout', amount: 'AED 654.00', status: 'Completed' },
+        { id: 'TXN-100233', date: 'Jan 18, 2026', desc: 'Order #250125 Payment Received', type: 'Incoming', amount: 'AED 598.00', status: 'Completed' },
+        { id: 'TXN-100232', date: 'Jan 17, 2026', desc: 'Monthly Subscription Fee', type: 'Expense', amount: '-AED 99.00', status: 'Completed' },
+        { id: 'TXN-100231', date: 'Jan 15, 2026', desc: 'Bulk Import Service Fee', type: 'Service', amount: '-AED 250.00', status: 'Pending' },
+        { id: 'TXN-100230', date: 'Jan 12, 2026', desc: 'Referral Bonus', type: 'Bonus', amount: 'AED 100.00', status: 'Completed' }
+    ]
 };

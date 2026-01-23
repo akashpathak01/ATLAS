@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/root/new-python-code/test_finance_drilldown.py", line 13, in <module>
-    import django
-ModuleNotFoundError: No module named 'django'

@@ -1,9 +1,39 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { sellerOrdersData } from '../../data/sellerDummyData';
-import { ShoppingCart, Plus, Upload, Download, Home, Search, Calendar, User, Phone, MapPin, Package } from 'lucide-react';
+import { ShoppingCart, Plus, Upload, Download, Home, Search, Calendar, User, Phone, MapPin, Package, Eye, Edit, Trash2, Filter, MoreVertical, LayoutDashboard, X, Save } from 'lucide-react';
 
 export function SellerOrdersPage() {
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showImportModal, setShowImportModal] = useState(false);
+    const [showExportModal, setShowExportModal] = useState(false);
+    const [showDashboardModal, setShowDashboardModal] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [showViewModal, setShowViewModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [orders, setOrders] = useState(sellerOrdersData);
+
+    const handleViewOrder = (order) => {
+        setSelectedOrder(order);
+        setShowViewModal(true);
+    };
+
+    const handleEditOrder = (order) => {
+        setSelectedOrder(order);
+        setShowEditModal(true);
+    };
+
+    const handleDeleteClick = (order) => {
+        setSelectedOrder(order);
+        setShowDeleteModal(true);
+    };
+
+    const confirmDelete = () => {
+        setOrders(orders.filter(o => o.id !== selectedOrder.id));
+        setShowDeleteModal(false);
+        alert(`Order ${selectedOrder.id} deleted successfully!`);
+    };
+
     return (
         <div className="space-y-6">
             {/* Breadcrumb */}
@@ -28,20 +58,32 @@ export function SellerOrdersPage() {
                     </div>
                 </div>
                 <div className="flex gap-2">
-                    <button className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium">
+                    <button
+                        onClick={() => setShowCreateModal(true)}
+                        className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-all active:scale-95 shadow-sm hover:shadow-md"
+                    >
                         <Plus className="w-4 h-4 mr-2" />
                         Create Order
                     </button>
-                    <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium">
+                    <button
+                        onClick={() => setShowImportModal(true)}
+                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-all active:scale-95 shadow-sm hover:shadow-md"
+                    >
                         <Upload className="w-4 h-4 mr-2" />
                         Import Orders
                     </button>
-                    <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium">
+                    <button
+                        onClick={() => setShowExportModal(true)}
+                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-all active:scale-95 shadow-sm hover:shadow-md"
+                    >
                         <Download className="w-4 h-4 mr-2" />
                         Export
                     </button>
-                    <button className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium">
-                        <Home className="w-4 h-4 mr-2" />
+                    <button
+                        onClick={() => setShowDashboardModal(true)}
+                        className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-all active:scale-95 shadow-sm hover:shadow-md"
+                    >
+                        <LayoutDashboard className="w-4 h-4 mr-2" />
                         Dashboard
                     </button>
                 </div>
@@ -85,8 +127,11 @@ export function SellerOrdersPage() {
                         </div>
                     </div>
                     <div>
-                        <button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg text-sm font-medium flex items-center justify-center transition-colors">
-                            <Search className="w-4 h-4 mr-2" />
+                        <button
+                            onClick={() => alert('Filters Applied')}
+                            className="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg text-sm font-medium flex items-center justify-center transition-all active:scale-[0.98] shadow-sm hover:shadow-md"
+                        >
+                            <Filter className="w-4 h-4 mr-2" />
                             Apply Filters
                         </button>
                     </div>
@@ -136,60 +181,547 @@ export function SellerOrdersPage() {
                                 <th className="px-6 py-3 font-semibold text-gray-700">Amount</th>
                                 <th className="px-6 py-3 font-semibold text-gray-700">Status</th>
                                 <th className="px-6 py-3 font-semibold text-gray-700">Payment</th>
+                                <th className="px-6 py-3 font-semibold text-gray-700 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
-                            {sellerOrdersData.map((order, idx) => (
-                                <tr key={idx} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-6 py-4 font-medium text-gray-900">{order.id}</td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-3 text-gray-500">
-                                                <User className="w-4 h-4" />
+                            {orders.length > 0 ? (
+                                orders.map((order, idx) => (
+                                    <tr key={idx} className="hover:bg-gray-50 transition-colors">
+                                        <td className="px-6 py-4 font-medium text-gray-900">{order.id}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center">
+                                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-3 text-gray-500">
+                                                    <User className="w-4 h-4" />
+                                                </div>
+                                                <div>
+                                                    <p className="font-medium text-gray-900">{order.customer}</p>
+                                                    <p className="text-xs text-gray-500">{order.phone}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="font-medium text-gray-900">{order.customer}</p>
-                                                <p className="text-xs text-gray-500">{order.phone}</p>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center">
+                                                <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center mr-3 text-gray-500">
+                                                    <Package className="w-4 h-4" />
+                                                </div>
+                                                <div>
+                                                    <p className="font-medium text-gray-900">{order.product}</p>
+                                                    <p className="text-xs text-gray-500">Qty: {order.qty}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center mr-3 text-gray-500">
-                                                <Package className="w-4 h-4" />
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center text-gray-600">
+                                                <MapPin className="w-4 h-4 mr-2 text-blue-500" />
+                                                <span>{order.address}</span>
                                             </div>
-                                            <div>
-                                                <p className="font-medium text-gray-900">{order.product}</p>
-                                                <p className="text-xs text-gray-500">Qty: {order.qty}</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center text-gray-600">
-                                            <MapPin className="w-4 h-4 mr-2 text-blue-500" />
-                                            <span>{order.address}</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 font-medium text-gray-900">{order.amount}</td>
-                                    <td className="px-6 py-4">
-                                        <span className={`px-3 py-1 rounded-md text-xs font-medium ${order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                                        </td>
+                                        <td className="px-6 py-4 font-medium text-gray-900">{order.amount}</td>
+                                        <td className="px-6 py-4">
+                                            <span className={`px-3 py-1 rounded-md text-xs font-medium ${order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
                                                 order.status === 'Cancelled' ? 'bg-red-100 text-red-800' :
                                                     'bg-gray-100 text-gray-800'
-                                            }`}>
-                                            {order.status}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className="px-3 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">
-                                            {order.payment}
-                                        </span>
+                                                }`}>
+                                                {order.status}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <span className="px-3 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                {order.payment}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 text-right">
+                                            <div className="flex items-center justify-end gap-2">
+                                                <button
+                                                    onClick={() => handleViewOrder(order)}
+                                                    className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="View Details"
+                                                >
+                                                    <Eye className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleEditOrder(order)}
+                                                    className="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Edit Order"
+                                                >
+                                                    <Edit className="w-4 h-4" />
+                                                </button>
+                                                {order.status === 'Pending' && (
+                                                    <button
+                                                        onClick={() => handleDeleteClick(order)}
+                                                        className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete Order"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="8" className="px-6 py-12 text-center text-gray-500 bg-gray-50/50">
+                                        <div className="flex flex-col items-center">
+                                            <Package className="w-12 h-12 text-gray-300 mb-2 opacity-50" />
+                                            <p className="font-medium">No orders found</p>
+                                            <p className="text-sm mt-1">Try changing filters or create a new order.</p>
+                                        </div>
                                     </td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
                 </div>
             </div>
+            {/* Create Order Modal */}
+            {showCreateModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-orange-50/50">
+                            <div className="flex items-center">
+                                <div className="p-2 bg-orange-100 rounded-lg mr-3">
+                                    <Plus className="w-5 h-5 text-orange-600" />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-bold text-gray-800">Create New Order</h2>
+                                    <p className="text-xs text-gray-500">Fill in the details to create a new customer order</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setShowCreateModal(false)}
+                                className="p-2 hover:bg-white rounded-full transition-colors text-gray-400 hover:text-gray-600 shadow-sm"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <form className="p-6 overflow-y-auto max-h-[70vh]">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Customer Info */}
+                                <div className="space-y-4">
+                                    <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Customer Details</h3>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
+                                        <input type="text" placeholder="Enter name" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                        <input type="tel" placeholder="+971 00 000 0000" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Shipping Address</label>
+                                        <textarea rows="3" placeholder="Enter full address" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none resize-none"></textarea>
+                                    </div>
+                                </div>
+
+                                {/* Order Info */}
+                                <div className="space-y-4">
+                                    <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Order Details</h3>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Select Product</label>
+                                        <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none">
+                                            <option>Select a product</option>
+                                            <option>Wireless Headphones</option>
+                                            <option>Smart Watch Ultra</option>
+                                            <option>Leather Messenger Bag</option>
+                                        </select>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                                            <input type="number" min="1" defaultValue="1" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Total Amount</label>
+                                            <div className="relative">
+                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">AED</span>
+                                                <input type="number" placeholder="0.00" className="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                                        <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none">
+                                            <option>Cash on Delivery</option>
+                                            <option>Credit Card</option>
+                                            <option>Bank Transfer</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Reference ID (Optional)</label>
+                                        <input type="text" placeholder="Internal ID" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+                            <button
+                                onClick={() => setShowCreateModal(false)}
+                                className="px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-600 hover:bg-white transition-all active:scale-95 shadow-sm"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    alert('Order Successfully Created!');
+                                    setShowCreateModal(false);
+                                }}
+                                className="px-6 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium hover:bg-orange-700 transition-all active:scale-95 shadow-sm hover:shadow-md flex items-center"
+                            >
+                                <Save className="w-4 h-4 mr-2" />
+                                Save Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Import Orders Modal */}
+            {showImportModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-green-50/50">
+                            <div className="flex items-center">
+                                <div className="p-2 bg-green-100 rounded-lg mr-3">
+                                    <Upload className="w-5 h-5 text-green-600" />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-bold text-gray-800">Import Orders</h2>
+                                    <p className="text-xs text-gray-500">Upload your bulk orders file (CSV, XLSX)</p>
+                                </div>
+                            </div>
+                            <button onClick={() => setShowImportModal(false)} className="p-2 hover:bg-white rounded-full transition-colors text-gray-400 hover:text-gray-600 shadow-sm">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <div className="p-8">
+                            <div className="border-2 border-dashed border-green-200 rounded-xl p-10 flex flex-col items-center justify-center bg-green-50/30 hover:bg-green-50/50 transition-colors cursor-pointer group">
+                                <div className="p-4 bg-green-100 rounded-full mb-4 group-hover:scale-110 transition-transform">
+                                    <Upload className="w-8 h-8 text-green-600" />
+                                </div>
+                                <p className="text-sm font-medium text-gray-700">Click to upload or drag and drop</p>
+                                <p className="text-xs text-gray-500 mt-1">Maximum file size 10MB</p>
+                            </div>
+                            <div className="mt-6 space-y-3">
+                                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Instructions</p>
+                                <ul className="text-xs text-gray-600 space-y-2 list-disc pl-4">
+                                    <li>Use the standard template for successful import</li>
+                                    <li>Ensure all required fields like Customer Name and Product are filled</li>
+                                    <li>Phone numbers should include country code</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+                            <button onClick={() => setShowImportModal(false)} className="px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-600 hover:bg-white transition-all active:scale-95">Cancel</button>
+                            <button onClick={() => { alert('Import Process Started!'); setShowImportModal(false); }} className="px-6 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-all active:scale-95 shadow-sm">Start Import</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Export Modal */}
+            {showExportModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-indigo-50/50">
+                            <div className="flex items-center">
+                                <div className="p-2 bg-indigo-100 rounded-lg mr-3">
+                                    <Download className="w-5 h-5 text-indigo-600" />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-bold text-gray-800">Export Orders</h2>
+                                    <p className="text-xs text-gray-500">Choose your export preferences and data range</p>
+                                </div>
+                            </div>
+                            <button onClick={() => setShowExportModal(false)} className="p-2 hover:bg-white rounded-full transition-colors text-gray-400 hover:text-gray-600 shadow-sm">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <div className="p-8 space-y-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Export Format</label>
+                                <div className="grid grid-cols-3 gap-3">
+                                    {['Excel', 'CSV', 'PDF'].map((format) => (
+                                        <button key={format} className={`py-3 rounded-xl border text-sm font-medium transition-all ${format === 'Excel' ? 'border-indigo-600 bg-indigo-50 text-indigo-700' : 'border-gray-200 hover:border-indigo-200 text-gray-600'}`}>
+                                            {format}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Data Range</label>
+                                <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all">
+                                    <option>Last 30 Days</option>
+                                    <option>This Month</option>
+                                    <option>Last Quarter</option>
+                                    <option>All Time</option>
+                                    <option>Custom Range</option>
+                                </select>
+                            </div>
+                            <div className="space-y-3">
+                                <label className="block text-sm font-medium text-gray-700">Included Statuses</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {['Pending', 'Shipped', 'Delivered', 'Cancelled'].map(s => (
+                                        <label key={s} className="flex items-center p-2 border border-gray-100 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                            <input type="checkbox" defaultChecked className="w-4 h-4 text-indigo-600 rounded border-gray-300 mr-2" />
+                                            <span className="text-xs text-gray-600">{s}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+                            <button onClick={() => setShowExportModal(false)} className="px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-600 hover:bg-white transition-all active:scale-95">Cancel</button>
+                            <button onClick={() => { alert('Export Started!'); setShowExportModal(false); }} className="px-6 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-all active:scale-95 shadow-sm">Download File</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Dashboard Stats Modal */}
+            {showDashboardModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-yellow-50/50">
+                            <div className="flex items-center">
+                                <div className="p-2 bg-yellow-100 rounded-lg mr-3">
+                                    <LayoutDashboard className="w-5 h-5 text-yellow-700" />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-bold text-gray-800">Order Dashboard Stats</h2>
+                                    <p className="text-xs text-gray-500">Quick overview of your order performance</p>
+                                </div>
+                            </div>
+                            <button onClick={() => setShowDashboardModal(false)} className="p-2 hover:bg-white rounded-full transition-colors text-gray-400 hover:text-gray-600 shadow-sm">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <div className="p-8">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div className="p-6 bg-orange-50 rounded-2xl">
+                                    <p className="text-xs font-semibold text-orange-400 uppercase tracking-wider mb-1">Total Orders</p>
+                                    <h3 className="text-3xl font-black text-orange-600">61</h3>
+                                    <p className="text-[10px] text-orange-500 mt-2 font-medium">+12.5% from last month</p>
+                                </div>
+                                <div className="p-6 bg-blue-50 rounded-2xl">
+                                    <p className="text-xs font-semibold text-blue-400 uppercase tracking-wider mb-1">Total Revenue</p>
+                                    <h3 className="text-3xl font-black text-blue-600">4,285</h3>
+                                    <p className="text-[10px] text-blue-500 mt-2 font-medium">AED currency</p>
+                                </div>
+                                <div className="p-6 bg-green-50 rounded-2xl">
+                                    <p className="text-xs font-semibold text-green-400 uppercase tracking-wider mb-1">Completed</p>
+                                    <h3 className="text-3xl font-black text-green-600">41</h3>
+                                    <p className="text-[10px] text-green-500 mt-2 font-medium">67% completion rate</p>
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <h4 className="text-sm font-bold text-gray-700 mb-4">Recent Performance</h4>
+                                <div className="space-y-4">
+                                    {[
+                                        { label: 'Weekly Growth', val: '85', color: 'bg-orange-500' },
+                                        { label: 'Customer Satisfaction', val: '92', color: 'bg-blue-500' },
+                                        { label: 'On-time Delivery', val: '78', color: 'bg-green-500' }
+                                    ].map(item => (
+                                        <div key={item.label}>
+                                            <div className="flex justify-between text-xs mb-1 font-medium">
+                                                <span className="text-gray-500">{item.label}</span>
+                                                <span className="text-gray-700">{item.val}%</span>
+                                            </div>
+                                            <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                                                <div className={`${item.color} h-full rounded-full`} style={{ width: `${item.val}%` }}></div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-end">
+                            <button onClick={() => setShowDashboardModal(false)} className="px-8 py-2 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 transition-all active:scale-95 shadow-sm">Close Dashboard View</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* View Order Modal */}
+            {showViewModal && selectedOrder && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-blue-50/50">
+                            <div className="flex items-center">
+                                <div className="p-2 bg-blue-100 rounded-lg mr-3">
+                                    <Eye className="w-5 h-5 text-blue-600" />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-bold text-gray-800">Order Details</h2>
+                                    <p className="text-xs text-gray-500">Full information for order {selectedOrder.id}</p>
+                                </div>
+                            </div>
+                            <button onClick={() => setShowViewModal(false)} className="p-2 hover:bg-white rounded-full transition-colors text-gray-400 hover:text-gray-600 shadow-sm">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <div className="p-8">
+                            <div className="grid grid-cols-2 gap-8">
+                                <div className="space-y-6">
+                                    <div>
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Customer Info</p>
+                                        <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                            <p className="font-bold text-gray-900">{selectedOrder.customer}</p>
+                                            <p className="text-sm text-gray-500 mt-1 flex items-center"><Phone className="w-3 h-3 mr-2" /> {selectedOrder.phone}</p>
+                                            <p className="text-sm text-gray-500 mt-1 flex items-center"><MapPin className="w-3 h-3 mr-2" /> {selectedOrder.address}</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Order Status</p>
+                                        <div className="flex items-center gap-3">
+                                            <span className={`px-4 py-1.5 rounded-full text-xs font-bold ${selectedOrder.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}`}>
+                                                {selectedOrder.status}
+                                            </span>
+                                            <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">
+                                                {selectedOrder.payment}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="space-y-6">
+                                    <div>
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Product Info</p>
+                                        <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 flex items-start">
+                                            <div className="w-12 h-12 bg-white rounded-lg border border-gray-200 flex items-center justify-center mr-4 shrink-0">
+                                                <Package className="w-6 h-6 text-gray-400" />
+                                            </div>
+                                            <div>
+                                                <p className="font-bold text-gray-900">{selectedOrder.product}</p>
+                                                <p className="text-sm text-gray-500">Qty: {selectedOrder.qty}</p>
+                                                <p className="text-lg font-black text-orange-600 mt-1">{selectedOrder.amount}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Delivery Note</p>
+                                        <p className="text-xs text-gray-500 leading-relaxed italic border-l-4 border-gray-200 pl-4 py-1">
+                                            Customer requested delivery before 5 PM. Please ensure the package is handled with care as it contains fragile items.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+                            <button onClick={() => setShowViewModal(false)} className="px-8 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-black transition-all active:scale-95 shadow-lg">Close Details</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit Order Modal */}
+            {showEditModal && selectedOrder && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-indigo-50/50">
+                            <div className="flex items-center">
+                                <div className="p-2 bg-indigo-100 rounded-lg mr-3">
+                                    <Edit className="w-5 h-5 text-indigo-600" />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-bold text-gray-800">Edit Order</h2>
+                                    <p className="text-xs text-gray-500">Modify details for order {selectedOrder.id}</p>
+                                </div>
+                            </div>
+                            <button onClick={() => setShowEditModal(false)} className="p-2 hover:bg-white rounded-full transition-colors text-gray-400 hover:text-gray-600 shadow-sm">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <form className="p-6 overflow-y-auto max-h-[70vh]">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-4">
+                                    <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Customer Information</h3>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
+                                        <input type="text" defaultValue={selectedOrder.customer} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                        <input type="text" defaultValue={selectedOrder.phone} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                        <textarea rows="2" defaultValue={selectedOrder.address} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all resize-none"></textarea>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Order Management</h3>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Update Status</label>
+                                        <select defaultValue={selectedOrder.status} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all font-bold">
+                                            <option>Pending</option>
+                                            <option>Processing</option>
+                                            <option>Shipped</option>
+                                            <option>Delivered</option>
+                                            <option>Cancelled</option>
+                                        </select>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                                            <input type="number" defaultValue={selectedOrder.qty} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Total Amount</label>
+                                            <input type="text" defaultValue={selectedOrder.amount} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Internal Note</label>
+                                        <input type="text" placeholder="Add private note..." className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+                            <button onClick={() => setShowEditModal(false)} className="px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-600 hover:bg-white transition-all active:scale-95 shadow-sm">Discard Changes</button>
+                            <button onClick={() => { alert('Changes Saved Successfully!'); setShowEditModal(false); }} className="px-6 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-all active:scale-95 shadow-sm hover:shadow-md border-b-2 border-indigo-900 flex items-center">
+                                <Save className="w-4 h-4 mr-2" />
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Delete Confirmation Modal */}
+            {showDeleteModal && selectedOrder && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="p-8 text-center">
+                            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <Trash2 className="w-10 h-10 text-red-600 animate-bounce" />
+                            </div>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-2">Are you sure?</h2>
+                            <p className="text-gray-500 mb-6">
+                                You are about to delete order <span className="font-bold text-gray-800">#{selectedOrder.id}</span>.
+                                This action cannot be undone.
+                            </p>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <button
+                                    onClick={() => setShowDeleteModal(false)}
+                                    className="px-6 py-3 border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition-all active:scale-95"
+                                >
+                                    No, Keep it
+                                </button>
+                                <button
+                                    onClick={confirmDelete}
+                                    className="px-6 py-3 bg-red-600 text-white rounded-xl text-sm font-bold hover:bg-red-700 transition-all active:scale-95 shadow-lg shadow-red-200"
+                                >
+                                    Yes, Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

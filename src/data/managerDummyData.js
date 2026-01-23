@@ -82,8 +82,29 @@ export const managerAgentsData = [
     {
         name: 'Call Center Agent',
         email: 'callcenter@atlas.com',
-        phone: 'N/A',
-        status: 'Active'
+        phone: '+971 50 123 4567',
+        status: 'Active',
+        role: 'Senior Agent',
+        joined: 'Jan 12, 2024',
+        performance: '92%'
+    },
+    {
+        name: 'Ahmed Hassan',
+        email: 'ahmed.h@atlas.com',
+        phone: '+971 55 987 6543',
+        status: 'Active',
+        role: 'Agent',
+        joined: 'Mar 05, 2024',
+        performance: '85%'
+    },
+    {
+        name: 'Sarah Khan',
+        email: 'sarah.k@atlas.com',
+        phone: '+971 56 444 3322',
+        status: 'Offline',
+        role: 'Agent',
+        joined: 'Jun 20, 2024',
+        performance: '78%'
     }
 ];
 
@@ -102,11 +123,35 @@ export const managerPerformanceData = {
         {
             agent: 'Call Center Agent',
             email: 'callcenter@atlas.com',
-            ordersHandled: 2,
-            successRate: '0.0%',
-            avgResponseTime: '2.5 min',
-            rating: 4.2,
-            performanceScore: '10.0%'
+            ordersHandled: 124,
+            successRate: '94.2%',
+            avgResponseTime: '1.8 min',
+            rating: 4.8,
+            performanceScore: '92.0%',
+            totalCalls: 450,
+            missedCalls: 12
+        },
+        {
+            agent: 'Ahmed Hassan',
+            email: 'ahmed.h@atlas.com',
+            ordersHandled: 98,
+            successRate: '88.5%',
+            avgResponseTime: '2.4 min',
+            rating: 4.5,
+            performanceScore: '85.0%',
+            totalCalls: 380,
+            missedCalls: 24
+        },
+        {
+            agent: 'Sarah Khan',
+            email: 'sarah.k@atlas.com',
+            ordersHandled: 76,
+            successRate: '82.0%',
+            avgResponseTime: '3.1 min',
+            rating: 4.1,
+            performanceScore: '78.0%',
+            totalCalls: 310,
+            missedCalls: 45
         }
     ]
 };

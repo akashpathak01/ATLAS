@@ -77,8 +77,8 @@ export function AdminDashboardPage() {
                                     <td className="px-6 py-4">{order.customer}</td>
                                     <td className="px-6 py-4">
                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${order.status === 'Delivered' ? 'bg-green-100 text-green-700' :
-                                                order.status === 'Processing' ? 'bg-blue-100 text-blue-700' :
-                                                    'bg-gray-100 text-gray-700'
+                                            order.status === 'Processing' ? 'bg-blue-100 text-blue-700' :
+                                                'bg-gray-100 text-gray-700'
                                             }`}>
                                             {order.status}
                                         </span>

@@ -1,9 +1,64 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { callCenterOrdersData } from '../../data/callCenterDummyData';
-import { Home, Phone, List, Filter, Search, X, Check, Clock, AlertCircle } from 'lucide-react';
+import { Home, List, Filter, Search, X, Check, Clock, Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function CallCenterOrdersPage() {
+    const navigate = useNavigate();
+
+    // State for filtering
+    const [orders, setOrders] = useState([]);
+    const [statusFilter, setStatusFilter] = useState('All Status');
+    const [priorityFilter, setPriorityFilter] = useState('All Priorities');
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // State for Modal
+    const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+
+    // Initialize orders with dummy data + randomly assigned priority for demonstration
+    useEffect(() => {
+        const enrichedOrders = callCenterOrdersData.orders.map(order => ({
+            ...order,
+            priority: Math.random() > 0.5 ? 'High' : 'Medium'
+        }));
+        setOrders(enrichedOrders);
+    }, []);
+
+    // Filter Logic
+    const filteredOrders = orders.filter(order => {
+        const matchesStatus = statusFilter === 'All Status' || order.status === statusFilter;
+        // Priority filter logic (assuming we added priority to data)
+        const matchesPriority = priorityFilter === 'All Priorities' || order.priority === priorityFilter;
+        const matchesSearch =
+            order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            order.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            order.product.toLowerCase().includes(searchQuery.toLowerCase());
+
+        return matchesStatus && matchesPriority && matchesSearch;
+    });
+
+    const handleApplyFilters = () => {
+        // In a real app with server-side filtering, this would trigger a fetch.
+        // Here, the filtering is reactive/live, so this button might be redundant 
+        // strictly for logic, but we can keep it as a 'confirmation' or just let 
+        // the user know filters are applied.
+        // For this implementation, the render already uses the state variables, 
+        // so this can just be a visual feedback or no-op if we want live filtering.
+        // To make it behave like a "submit" form, we could separate 'filterState' from 'activeFilters'.
+        // But for simplicity/snappiness, live filtering (already happening) is acceptable.
+        // If strict "Apply" behavior is needed:
+        // We can move the filtering logic to this function and store the result in a 'displayedOrders' state.
+        // I will stick to reactive filtering as it's better UX, but usually "Apply" implies manual trigger.
+        // I'll make the button just a visual "good to go" or maybe scroll to top.
+    };
+
+    const handleClearFilters = () => {
+        setStatusFilter('All Status');
+        setPriorityFilter('All Priorities');
+        setSearchQuery('');
+    };
+
     return (
         <div className="space-y-6">
             {/* Breadcrumb */}
@@ -27,7 +82,10 @@ export function CallCenterOrdersPage() {
                         <p className="text-gray-500 text-sm mt-1">View and manage your assigned orders</p>
                     </div>
                 </div>
-                <button className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium">
+                <button
+                    onClick={() => navigate('/call-center/dashboard')}
+                    className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-colors"
+                >
                     ← Back to Dashboard
                 </button>
             </div>
@@ -79,8 +137,15 @@ export function CallCenterOrdersPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                         <div className="relative">
-                            <select className="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm text-gray-600">
+                            <select
+                                value={statusFilter}
+                                onChange={(e) => setStatusFilter(e.target.value)}
+                                className="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm text-gray-600"
+                            >
                                 <option>All Status</option>
+                                <option>Pending</option>
+                                <option>Confirmed</option>
+                                <option>Cancelled</option>
                             </select>
                             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                                 <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -90,8 +155,15 @@ export function CallCenterOrdersPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
                         <div className="relative">
-                            <select className="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm text-gray-600">
+                            <select
+                                value={priorityFilter}
+                                onChange={(e) => setPriorityFilter(e.target.value)}
+                                className="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm text-gray-600"
+                            >
                                 <option>All Priorities</option>
+                                <option>High</option>
+                                <option>Medium</option>
+                                <option>Low</option>
                             </select>
                             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                                 <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -103,24 +175,36 @@ export function CallCenterOrdersPage() {
                         <div className="relative">
                             <input
                                 type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search orders..."
                                 className="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm"
                             />
+                            <Search className="absolute right-3 top-2.5 w-4 h-4 text-gray-400" />
                         </div>
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
-                    <button className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-lg flex items-center text-sm font-medium shadow-sm">
+                    <button
+                        onClick={handleApplyFilters}
+                        className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-lg flex items-center text-sm font-medium shadow-sm transition-colors"
+                    >
                         <Filter className="w-4 h-4 mr-2" />
                         Apply Filters
                     </button>
-                    <button className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg flex items-center text-sm font-medium shadow-sm">
+                    <button
+                        onClick={handleClearFilters}
+                        className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg flex items-center text-sm font-medium shadow-sm transition-colors"
+                    >
                         <X className="w-4 h-4 mr-2" />
                         Clear
                     </button>
-                    <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center text-sm font-medium shadow-sm ml-auto">
-                        <span className="mr-2">+</span>
-                        تعيين الطلبات
+                    <button
+                        onClick={() => setIsAssignModalOpen(true)}
+                        className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center text-sm font-medium shadow-sm ml-auto transition-colors"
+                    >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Assign Orders
                     </button>
                 </div>
             </div>
@@ -129,7 +213,7 @@ export function CallCenterOrdersPage() {
             <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden run-in">
                 <div className="p-5 border-b border-gray-100 flex justify-between items-center">
                     <h3 className="text-lg font-bold text-gray-900">Orders</h3>
-                    <p className="text-sm text-gray-500">Total: 17 orders</p>
+                    <p className="text-sm text-gray-500">Total: {filteredOrders.length} orders</p>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
@@ -140,45 +224,115 @@ export function CallCenterOrdersPage() {
                                 <th className="px-6 py-4 font-bold text-gray-600">PRODUCT</th>
                                 <th className="px-6 py-4 font-bold text-gray-600">PRICE</th>
                                 <th className="px-6 py-4 font-bold text-gray-600">ADDRESS</th>
+                                <th className="px-6 py-4 font-bold text-gray-600">PRIORITY</th>
                                 <th className="px-6 py-4 font-bold text-gray-600">STATUS</th>
                                 <th className="px-6 py-4 font-bold text-gray-600">DATE</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
-                            {callCenterOrdersData.orders.map((order, idx) => (
-                                <tr key={idx} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-6 py-4 font-bold text-gray-900">{order.id}</td>
-                                    <td className="px-6 py-4">
-                                        <div className="font-bold text-gray-900">{order.customer}</div>
-                                        <div className="text-xs text-gray-500">{order.phone}</div>
-                                    </td>
-                                    <td className="px-6 py-4 text-gray-600">{order.product}</td>
-                                    <td className="px-6 py-4">
-                                        <div className="font-bold text-green-600">{order.price}</div>
-                                        <div className="text-xs text-gray-400">per unit</div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-start text-xs text-gray-500 max-w-xs">
-                                            <div className="mr-1 mt-0.5"><svg className="w-3 h-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg></div>
-                                            {order.address}
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-gray-200 text-gray-700 shadow-sm">
-                                            <Clock className="w-3 h-3 text-yellow-500 mr-1.5" />
-                                            <div>
-                                                <div className="font-bold text-gray-900">{order.statusAr}</div>
-                                                <div className="text-[10px] text-gray-500">{order.status}</div>
+                            {filteredOrders.length > 0 ? (
+                                filteredOrders.map((order, idx) => (
+                                    <tr key={idx} className="hover:bg-gray-50 transition-colors">
+                                        <td className="px-6 py-4 font-bold text-gray-900">{order.id}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="font-bold text-gray-900">{order.customer}</div>
+                                            <div className="text-xs text-gray-500">{order.phone}</div>
+                                        </td>
+                                        <td className="px-6 py-4 text-gray-600">{order.product}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="font-bold text-green-600">{order.price}</div>
+                                            <div className="text-xs text-gray-400">per unit</div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-start text-xs text-gray-500 max-w-xs">
+                                                <div className="mr-1 mt-0.5"><svg className="w-3 h-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg></div>
+                                                {order.address}
                                             </div>
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-gray-500 text-xs">
-                                        {order.date}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${order.priority === 'High'
+                                                    ? 'bg-red-100 text-red-800'
+                                                    : 'bg-blue-100 text-blue-800'
+                                                }`}>
+                                                {order.priority}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-white border border-gray-200 text-gray-700 shadow-sm">
+                                                <Clock className="w-3 h-3 text-yellow-500 mr-1.5" />
+                                                <div>
+                                                    <div className="font-bold text-gray-900">{order.statusAr}</div>
+                                                    <div className="text-[10px] text-gray-500">{order.status}</div>
+                                                </div>
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 text-gray-500 text-xs">
+                                            {order.date}
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="8" className="px-6 py-8 text-center text-gray-500">
+                                        No orders found matching your filters.
                                     </td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <AssignOrdersModal
+                isOpen={isAssignModalOpen}
+                onClose={() => setIsAssignModalOpen(false)}
+            />
+        </div>
+    );
+}
+
+function AssignOrdersModal({ isOpen, onClose }) {
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                    <h3 className="text-lg font-bold text-gray-900">Assign Orders</h3>
+                    <button
+                        onClick={onClose}
+                        className="p-1 rounded-full hover:bg-gray-200 transition-colors"
+                    >
+                        <X className="w-5 h-5 text-gray-500" />
+                    </button>
+                </div>
+
+                <div className="p-6 text-center">
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Check className="w-8 h-8 text-green-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">Assign Orders to Agents</h3>
+                    <p className="text-gray-500 text-sm mb-6">
+                        This feature allows you to manually or automatically assign pending orders to available agents.
+                    </p>
+
+                    <div className="space-y-3">
+                        <button className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors">
+                            Auto-Assign All Pending
+                        </button>
+                        <button className="w-full py-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-xl font-bold transition-colors">
+                            Manual Assignment
+                        </button>
+                    </div>
+                </div>
+
+                <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end">
+                    <button
+                        onClick={onClose}
+                        className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                    >
+                        Close
+                    </button>
                 </div>
             </div>
         </div>

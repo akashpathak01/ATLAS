@@ -39,6 +39,7 @@ import { ManagerOrdersPage } from './pages/manager/ManagerOrdersPage';
 import { ManagerAgentsPage } from './pages/manager/ManagerAgentsPage';
 import { ManagerPerformancePage } from './pages/manager/ManagerPerformancePage';
 import { ManagerStatisticsPage } from './pages/manager/ManagerStatisticsPage';
+import { ManagerSettingsPage } from './pages/manager/ManagerSettingsPage';
 
 // Stock Keeper Pages
 import { StockDashboardPage } from './pages/stock/StockDashboardPage';
@@ -216,6 +217,12 @@ function App() {
           <Route path="/manager/statistics" element={
             <MainLayout>
               <ManagerStatisticsPage />
+            </MainLayout>
+          } />
+
+          <Route path="/manager/settings" element={
+            <MainLayout>
+              <ManagerSettingsPage />
             </MainLayout>
           } />
 

@@ -5,9 +5,20 @@ import { Home, Package, Box, Warehouse, AlertTriangle, XCircle, ClipboardList, C
 
 export function StockDashboardPage() {
     const [showBanner, setShowBanner] = useState(true);
+    const [filter, setFilter] = useState('All Time');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [dateRange, setDateRange] = useState({ start: '', end: '' });
+
+    const handleApplyRange = (e) => {
+        e.preventDefault();
+        if (dateRange.start && dateRange.end) {
+            setFilter(`Custom (${dateRange.start} - ${dateRange.end})`);
+            setIsModalOpen(false);
+        }
+    };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 relative">
             {/* Welcome Banner */}
             {showBanner && (
                 <div className="bg-green-50 border border-green-100 rounded-lg p-4 flex justify-between items-center text-green-700">
@@ -32,7 +43,7 @@ export function StockDashboardPage() {
             </div>
 
             {/* Header */}
-            <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-4 rounded-xl border border-gray-100 shadow-sm gap-4">
                 <div className="flex items-center">
                     <div className="p-3 bg-orange-100 rounded-xl mr-4">
                         <Package className="w-8 h-8 text-orange-500" />
@@ -42,24 +53,50 @@ export function StockDashboardPage() {
                         <p className="text-gray-500 text-sm mt-1">Manage warehouse inventory and stock operations</p>
                     </div>
                 </div>
-                <div className="flex space-x-3">
-                    <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg flex items-center text-sm font-bold shadow-sm">
+                <div className="flex flex-wrap items-center gap-3">
+                    <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg flex items-center text-sm font-bold shadow-sm transition-all active:scale-95">
                         <Home className="w-4 h-4 mr-2" />
                         Dashboard
                     </button>
-                    <select className="border border-gray-200 rounded-lg text-sm px-3 py-2 text-gray-600 focus:outline-none bg-white">
-                        <option>All Time</option>
+
+                    <select
+                        value={filter.startsWith('Custom') ? 'Custom' : filter}
+                        onChange={(e) => {
+                            if (e.target.value === 'Custom') {
+                                setIsModalOpen(true);
+                            } else {
+                                setFilter(e.target.value);
+                            }
+                        }}
+                        className="border border-gray-200 rounded-lg text-sm px-3 py-2 text-gray-600 focus:outline-none focus:border-blue-500 bg-white cursor-pointer h-[38px]"
+                    >
+                        <option value="All Time">All Time</option>
+                        <option value="Today">Today</option>
+                        <option value="This Week">This Week</option>
+                        <option value="This Month">This Month</option>
+                        <option value="Custom" hidden>Custom Range</option>
                     </select>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium shadow-sm">
+
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium shadow-sm transition-all active:scale-95"
+                    >
                         <Calendar className="w-4 h-4 mr-2" />
-                        Custom Range
+                        {filter.startsWith('Custom') ? 'Change Range' : 'Custom Range'}
                     </button>
                 </div>
             </div>
 
+            {/* Filter Status Indicator (Optional but helpful for "Filter work") */}
+            <div className="flex items-center justify-end">
+                <p className="text-xs text-gray-500 font-medium bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
+                    Showing data for: <span className="text-gray-900 font-bold">{filter}</span>
+                </p>
+            </div>
+
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center">
+                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center transition-all hover:shadow-md">
                     <div>
                         <p className="text-gray-500 text-sm font-medium mb-1">Total Products</p>
                         <h3 className="text-4xl font-bold text-gray-900">{stockDashboardData.stats.totalProducts}</h3>
@@ -68,7 +105,7 @@ export function StockDashboardPage() {
                         <Package className="w-8 h-8 text-blue-600" />
                     </div>
                 </div>
-                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center">
+                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center transition-all hover:shadow-md">
                     <div>
                         <p className="text-gray-500 text-sm font-medium mb-1">Total Pieces</p>
                         <h3 className="text-4xl font-bold text-gray-900">{stockDashboardData.stats.totalPieces}</h3>
@@ -77,7 +114,7 @@ export function StockDashboardPage() {
                         <Box className="w-8 h-8 text-green-600" />
                     </div>
                 </div>
-                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center">
+                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center transition-all hover:shadow-md">
                     <div>
                         <p className="text-gray-500 text-sm font-medium mb-1">Warehouses</p>
                         <h3 className="text-4xl font-bold text-gray-900">{stockDashboardData.stats.warehouses}</h3>
@@ -86,7 +123,7 @@ export function StockDashboardPage() {
                         <Warehouse className="w-8 h-8 text-orange-600" />
                     </div>
                 </div>
-                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center">
+                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center transition-all hover:shadow-md">
                     <div>
                         <p className="text-gray-500 text-sm font-medium mb-1">Near Expiry</p>
                         <h3 className="text-4xl font-bold text-gray-900">{stockDashboardData.stats.nearExpiry}</h3>
@@ -95,7 +132,7 @@ export function StockDashboardPage() {
                         <AlertTriangle className="w-8 h-8 text-yellow-600" />
                     </div>
                 </div>
-                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center">
+                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center transition-all hover:shadow-md">
                     <div>
                         <p className="text-gray-500 text-sm font-medium mb-1">Out of Stock</p>
                         <h3 className="text-4xl font-bold text-gray-900">{stockDashboardData.stats.outOfStock}</h3>
@@ -104,7 +141,7 @@ export function StockDashboardPage() {
                         <XCircle className="w-8 h-8 text-red-600" />
                     </div>
                 </div>
-                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center">
+                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center transition-all hover:shadow-md">
                     <div>
                         <p className="text-gray-500 text-sm font-medium mb-1">Orders Awaiting Pick</p>
                         <h3 className="text-4xl font-bold text-gray-900">{stockDashboardData.stats.ordersAwaitingPick}</h3>
@@ -132,11 +169,72 @@ export function StockDashboardPage() {
                 <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm min-h-[400px]">
                     <h3 className="text-lg font-bold text-gray-900 mb-6">Quantities by Warehouse</h3>
                     <div className="flex items-center justify-center h-64 text-gray-400">
-                        {/* Empty chart placeholder as per screenshot implication (though screenshot cuts off) */}
+                        {/* Empty chart placeholder */}
                         <p>Chart data will appear here</p>
                     </div>
                 </div>
             </div>
+
+            {/* Date Range Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
+                        <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                            <h3 className="text-lg font-bold text-gray-900 flex items-center">
+                                <Calendar className="w-5 h-5 mr-2 text-blue-600" />
+                                Select Date Range
+                            </h3>
+                            <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition-all"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleApplyRange} className="p-6 space-y-5">
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 pl-1">Start Date</label>
+                                    <input
+                                        type="date"
+                                        required
+                                        value={dateRange.start}
+                                        onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
+                                        className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 pl-1">End Date</label>
+                                    <input
+                                        type="date"
+                                        required
+                                        value={dateRange.end}
+                                        onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
+                                        className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="pt-2 flex gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="flex-1 px-4 py-3 text-sm font-bold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="flex-1 px-4 py-3 text-sm font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 shadow-md shadow-blue-200 transition-all active:scale-95"
+                                >
+                                    Apply Range
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
