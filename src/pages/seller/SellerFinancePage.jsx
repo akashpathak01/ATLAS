@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { sellerFinanceData } from '../../data/sellerDummyData';
-import { DollarSign, Plus, Upload, Home, Search, Banknote, Percent, Clock, TrendingUp, X, Save, Download, LayoutDashboard, Calendar, Eye, FileText, Wallet, ArrowUpRight, ArrowDownLeft, BarChart2 } from 'lucide-react';
+import { DollarSign, Plus, Upload, Home, Search, Banknote, Percent, Clock, TrendingUp, X, Save, Download, LayoutDashboard, Calendar, Eye, FileText, Wallet, ArrowUpRight, ArrowDownLeft, BarChart2, ArrowLeft, PlusCircle, Info, Globe, ChevronDown, Image as ImageIcon, Link } from 'lucide-react';
 
 export function SellerFinancePage() {
+    const [view, setView] = useState('list'); // 'list' or 'add'
     const [transactions, setTransactions] = useState(sellerFinanceData.transactions);
     const [searchTerm, setSearchTerm] = useState('');
     const [typeFilter, setTypeFilter] = useState('All Types');
     const [statusFilter, setStatusFilter] = useState('All Status');
-    const [showPayoutModal, setShowPayoutModal] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
     const [showDashboardModal, setShowDashboardModal] = useState(false);
     const [selectedTxn, setSelectedTxn] = useState(null);
@@ -50,6 +50,137 @@ export function SellerFinancePage() {
         setShowViewModal(true);
     };
 
+    if (view === 'add') {
+        return (
+            <div className="space-y-6 pb-20 animate-in fade-in duration-500">
+                {/* Header Actions */}
+                <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                    <div className="flex items-center gap-4">
+                        <div className="p-2 bg-orange-50 rounded-lg">
+                            <PlusCircle className="w-5 h-5 text-orange-500" />
+                        </div>
+                        <div>
+                            <h1 className="text-xl font-bold text-gray-800">Add New Product</h1>
+                            <p className="text-xs text-gray-500">Fill in the details below to add a new product to your inventory</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-3">
+                        <button
+                            onClick={() => setView('list')}
+                            className="bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-bold transition-all active:scale-95 shadow-sm"
+                        >
+                            <ArrowLeft className="w-4 h-4 mr-2" />
+                            Back to Finance
+                        </button>
+                        <button
+                            onClick={() => setShowDashboardModal(true)}
+                            className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg flex items-center text-sm font-bold transition-all active:scale-95 shadow-sm"
+                        >
+                            <LayoutDashboard className="w-4 h-4 mr-2" />
+                            Dashboard
+                        </button>
+                    </div>
+                </div>
+
+                {/* Main Form container */}
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-xl max-w-5xl mx-auto overflow-hidden">
+                    <div className="p-8 space-y-8">
+                        <div>
+                            <h3 className="text-lg font-bold text-gray-800">Product Information</h3>
+                            <p className="text-sm text-gray-500">Enter the product details below</p>
+                        </div>
+
+                        <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-4 flex gap-4">
+                            <div className="bg-blue-500 rounded-full p-1 h-fit mt-1">
+                                <Info className="w-3 h-3 text-white" />
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-sm text-blue-700 font-bold leading-relaxed flex items-center gap-2">
+                                    <span dir="rtl" className="font-arabic text-right w-full block">يمكن للسيلر اضافة منتج حتى وان لايوجد أي وير هاوس متاح. سيتم مراجعة المنتج من قبل الادمن وتعيينه لمستودع عند الموافقة.</span>
+                                </p>
+                                <p className="text-xs text-blue-600/80 font-medium">
+                                    Note: The seller can add a product even if no warehouse is available. Your product will be reviewed by admin and assigned to a warehouse upon approval.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2">Product Name (English) <span className="text-red-500">*</span></label>
+                                <input type="text" placeholder="Enter product name in English" className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-medium" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2">Product Name (Arabic)</label>
+                                <input type="text" dir="rtl" placeholder="Enter product name in Arabic" className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-medium font-arabic text-right" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2">Product Code</label>
+                                <div className="space-y-2">
+                                    <input type="text" disabled placeholder="Auto-generated" className="w-full px-5 py-3.5 bg-gray-100 border border-gray-200 rounded-2xl text-gray-400 font-bold cursor-not-allowed" />
+                                    <p className="text-[10px] text-gray-400 ml-1 font-medium">Product code will be generated automatically</p>
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2">Category</label>
+                                <div className="relative">
+                                    <select className="w-full px-5 py-3.5 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 appearance-none font-medium text-gray-500 cursor-pointer transition-all">
+                                        <option>Select category</option>
+                                        <option>Electronics</option>
+                                        <option>Fashion</option>
+                                        <option>Home Decor</option>
+                                    </select>
+                                    <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                </div>
+                            </div>
+                            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Purchase Price (AED)</label>
+                                    <input type="text" placeholder="0.00" className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-bold" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Selling Price (AED) <span className="text-red-500">*</span></label>
+                                    <input type="text" placeholder="0.00" className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-bold" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Profit Margin (%)</label>
+                                    <input type="text" placeholder="0.00" className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-bold" />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2">Stock Quantity</label>
+                                <input type="number" placeholder="0" className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-bold" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2">Product Link <span className="text-red-500">*</span></label>
+                                <div className="relative group">
+                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-orange-500">
+                                        <Link className="w-4 h-4" />
+                                    </div>
+                                    <input type="text" placeholder="https://example.com/product" className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-medium underline decoration-orange-200 underline-offset-4" />
+                                </div>
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-bold text-gray-700 mb-2">Product Image</label>
+                                <div className="border-2 border-dashed border-gray-200 rounded-3xl p-12 text-center bg-gray-50/30 hover:bg-white hover:border-orange-200 hover:shadow-xl hover:shadow-orange-500/5 transition-all cursor-pointer group">
+                                    <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm border border-gray-100 group-hover:scale-110 group-hover:bg-orange-50 transition-all">
+                                        <ImageIcon className="w-8 h-8 text-gray-300 group-hover:text-orange-500" />
+                                    </div>
+                                    <p className="text-sm font-bold text-gray-700"><span className="text-orange-600">Upload a file</span> or drag and drop</p>
+                                    <p className="text-[10px] text-gray-400 mt-2 uppercase tracking-widest font-black">PNG, JPG, CIF up to 10MB</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end gap-4 pt-8 border-t border-gray-50">
+                            <button onClick={() => setView('list')} className="px-8 py-3.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-2xl text-sm font-black transition-all active:scale-95">Cancel</button>
+                            <button onClick={() => { alert('Product Added!'); setView('list'); }} className="px-10 py-3.5 bg-orange-600 hover:bg-orange-700 text-white rounded-2xl text-sm font-black transition-all active:scale-95 shadow-xl shadow-orange-500/30">+ Add Product</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-6">
             {/* Breadcrumb */}
@@ -75,11 +206,11 @@ export function SellerFinancePage() {
                 </div>
                 <div className="flex gap-2">
                     <button
-                        onClick={() => setShowPayoutModal(true)}
+                        onClick={() => setView('add')}
                         className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-all active:scale-95 shadow-sm hover:shadow-md"
                     >
                         <Plus className="w-4 h-4 mr-2" />
-                        Request Payout
+                        Add Product
                     </button>
                     <button
                         onClick={() => setShowExportModal(true)}
@@ -289,51 +420,6 @@ export function SellerFinancePage() {
                 </div>
             </div>
 
-            {/* Payout Modal */}
-            {showPayoutModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
-                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-orange-50/50">
-                            <div className="flex items-center">
-                                <div className="p-2 bg-orange-100 rounded-lg mr-3">
-                                    <Wallet className="w-5 h-5 text-orange-600" />
-                                </div>
-                                <h2 className="text-xl font-bold text-gray-800">Request Payout</h2>
-                            </div>
-                            <button onClick={() => setShowPayoutModal(false)} className="p-2 hover:bg-white rounded-full transition-colors text-gray-400 hover:text-gray-600 shadow-sm"><X className="w-5 h-5" /></button>
-                        </div>
-                        <div className="p-8">
-                            <div className="bg-orange-50 border border-orange-100 rounded-xl p-4 mb-6">
-                                <p className="text-xs font-bold text-orange-600 uppercase tracking-widest mb-1">Available Balance</p>
-                                <p className="text-3xl font-black text-orange-700 tracking-tighter">AED 5,200.00</p>
-                            </div>
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-1">Amount to Withdraw</label>
-                                    <div className="relative">
-                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-bold">AED</span>
-                                        <input type="number" placeholder="Enter amount" className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none transition-all font-bold" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-1">Select Bank Account</label>
-                                    <select className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none transition-all font-medium">
-                                        <option>Emirates NBD - **** 4829</option>
-                                        <option>ADCB - **** 9102</option>
-                                    </select>
-                                </div>
-                                <p className="text-[10px] text-gray-400 leading-relaxed italic">
-                                    * Payout requests are processed within 24-48 hours. Minimum withdrawal is AED 100.00.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
-                            <button onClick={() => setShowPayoutModal(false)} className="px-8 py-2.5 border border-gray-300 rounded-xl text-sm font-bold text-gray-500 hover:bg-white transition-all active:scale-95">Cancel</button>
-                            <button onClick={() => { alert('Payout request submitted successfully!'); setShowPayoutModal(false); }} className="px-10 py-2.5 bg-orange-600 text-white rounded-xl text-sm font-black hover:bg-orange-700 active:scale-95 transition-all shadow-lg border-b-2 border-orange-800 flex items-center"><DollarSign className="w-4 h-4 mr-2" /> Confirm Payout</button>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* Export Modal */}
             {showExportModal && (

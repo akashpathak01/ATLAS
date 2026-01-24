@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { sellerOrdersData } from '../../data/sellerDummyData';
-import { ShoppingCart, Plus, Upload, Download, Home, Search, Calendar, User, Phone, MapPin, Package, Eye, Edit, Trash2, Filter, MoreVertical, LayoutDashboard, X, Save } from 'lucide-react';
+import { ShoppingCart, Plus, Upload, Download, Home, Search, Calendar, User, Phone, MapPin, Package, Eye, Edit, Trash2, Filter, MoreVertical, LayoutDashboard, X, Save, ArrowLeft, PlusCircle, Globe, LayoutList, RotateCcw, FileText, ChevronDown, CheckCircle } from 'lucide-react';
 
 export function SellerOrdersPage() {
-    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [view, setView] = useState('list'); // 'list' or 'create'
     const [showImportModal, setShowImportModal] = useState(false);
     const [showExportModal, setShowExportModal] = useState(false);
     const [showDashboardModal, setShowDashboardModal] = useState(false);
@@ -34,6 +34,316 @@ export function SellerOrdersPage() {
         alert(`Order ${selectedOrder.id} deleted successfully!`);
     };
 
+    if (view === 'create') {
+        return (
+            <div className="space-y-6 pb-20">
+                {/* Breadcrumb */}
+                <div className="flex items-center text-sm text-gray-500">
+                    <Home className="w-4 h-4 mr-2" />
+                    <span className="mr-2">Home</span>
+                    <span className="mx-2">&gt;</span>
+                    <ShoppingCart className="w-4 h-4 mr-2" />
+                    <span className="mr-2 cursor-pointer hover:text-orange-500" onClick={() => setView('list')}>Orders</span>
+                    <span className="mx-2">&gt;</span>
+                    <span className="font-medium text-gray-900">Create</span>
+                </div>
+
+                {/* Header Actions */}
+                <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-orange-500 rounded-xl">
+                            <PlusCircle className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                            <h1 className="text-2xl font-bold text-orange-600">Create New Order</h1>
+                            <p className="text-gray-500 text-sm">Add a new order to the system</p>
+                        </div>
+                    </div>
+                    <button
+                        onClick={() => setView('list')}
+                        className="bg-slate-600 hover:bg-slate-700 text-white px-5 py-2.5 rounded-lg flex items-center text-sm font-bold transition-all active:scale-95 shadow-md"
+                    >
+                        <ArrowLeft className="w-4 h-4 mr-2" />
+                        Back to Orders
+                    </button>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    {/* Left Main Form */}
+                    <div className="lg:col-span-3 space-y-8">
+                        {/* 1. Customer Information */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/30 flex items-center gap-3">
+                                <User className="w-5 h-5 text-orange-500" />
+                                <h3 className="font-bold text-gray-800">Customer Information</h3>
+                            </div>
+                            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Customer Name <span className="text-red-500">*</span></label>
+                                    <div className="relative group">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-orange-500">
+                                            <User className="w-4 h-4" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            placeholder="Unknown Customer"
+                                            className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-medium"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Customer Phone <span className="text-red-500">*</span></label>
+                                    <div className="relative group">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-orange-500">
+                                            <Phone className="w-4 h-4" />
+                                        </div>
+                                        <input
+                                            type="tel"
+                                            placeholder="+971501234567"
+                                            className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-medium"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Order Date <span className="text-red-500">*</span></label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                                            <Calendar className="w-4 h-4" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            value="24/01/2026"
+                                            readOnly
+                                            className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500 font-medium cursor-not-allowed"
+                                        />
+                                    </div>
+                                    <p className="text-[10px] text-gray-400 mt-1.5 ml-1">Date is automatically set to today</p>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Status</label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                                            <Filter className="w-4 h-4" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            value="Pending"
+                                            readOnly
+                                            className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500 font-medium cursor-not-allowed"
+                                        />
+                                    </div>
+                                    <p className="text-[10px] text-gray-400 mt-1.5 ml-1">Status will be set to Pending automatically</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 2. Address Information */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/30 flex items-center gap-3">
+                                <MapPin className="w-5 h-5 text-orange-500" />
+                                <h3 className="font-bold text-gray-800">Address Information</h3>
+                            </div>
+                            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">City <span className="text-red-500">*</span></label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                                            <MapPin className="w-4 h-4" />
+                                        </div>
+                                        <select className="w-full pl-11 pr-10 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 appearance-none transition-all font-medium text-gray-600">
+                                            <option>Select City</option>
+                                            <option>Dubai</option>
+                                            <option>Abu Dhabi</option>
+                                            <option>Sharjah</option>
+                                        </select>
+                                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Area <span className="text-red-500">*</span></label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                                            <MapPin className="w-4 h-4" />
+                                        </div>
+                                        <select disabled className="w-full pl-11 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-xl appearance-none font-medium text-gray-400 cursor-not-allowed">
+                                            <option>Select Area - Please select city first</option>
+                                        </select>
+                                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300 pointer-events-none" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Street Address</label>
+                                    <div className="relative group">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-orange-500">
+                                            <Home className="w-4 h-4" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            placeholder="Enter street address and building number"
+                                            className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-medium"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Country <span className="text-red-500">*</span></label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                                            <Globe className="w-4 h-4" />
+                                        </div>
+                                        <select className="w-full pl-11 pr-10 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 appearance-none transition-all font-medium text-gray-900 border-2">
+                                            <option>United Arab Emirates</option>
+                                            <option>Saudi Arabia</option>
+                                            <option>Oman</option>
+                                        </select>
+                                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-900 pointer-events-none" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 3. Product Information */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/30 flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <Package className="w-5 h-5 text-orange-500" />
+                                    <h3 className="font-bold text-gray-800">Product Information</h3>
+                                </div>
+                                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-bold shadow-sm transition-all active:scale-95">
+                                    <Plus className="w-4 h-4 mr-2" />
+                                    Add Product
+                                </button>
+                            </div>
+                            <div className="p-6">
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end pb-6 border-b border-gray-50 mb-6">
+                                    <div className="md:col-span-1">
+                                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Product <span className="text-red-500">*</span></label>
+                                        <div className="relative">
+                                            <select className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 appearance-none font-medium text-gray-500 text-sm">
+                                                <option>Select Product</option>
+                                            </select>
+                                            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                        </div>
+                                    </div>
+                                    <div className="md:col-span-1">
+                                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Product Variant</label>
+                                        <div className="relative">
+                                            <select className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 appearance-none font-medium text-gray-500 text-sm">
+                                                <option>No Variant</option>
+                                            </select>
+                                            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Quantity <span className="text-red-500">*</span></label>
+                                        <input type="number" defaultValue="1" className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 font-bold" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Unit Price (AED) <span className="text-red-500">*</span></label>
+                                        <input type="text" placeholder="0.00" className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 font-bold" />
+                                    </div>
+                                </div>
+                                <div className="flex justify-end items-center">
+                                    <span className="text-lg font-bold text-gray-500 mr-4">Total Price:</span>
+                                    <span className="text-2xl font-black text-orange-600 uppercase tracking-tight">AED 0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 4. Notes */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/30 flex items-center gap-3">
+                                <FileText className="w-5 h-5 text-orange-500" />
+                                <h3 className="font-bold text-gray-800">Notes</h3>
+                            </div>
+                            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Customer Notes</label>
+                                    <textarea
+                                        rows="4"
+                                        placeholder="Customer notes or special instructions"
+                                        className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-medium resize-none"
+                                    ></textarea>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Internal Notes</label>
+                                    <textarea
+                                        rows="4"
+                                        placeholder="Internal notes for team members"
+                                        className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white transition-all font-medium resize-none"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Sidebar - Action Cards */}
+                    <div className="lg:col-span-1 space-y-6">
+                        {/* Summary Card */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50">
+                                <h3 className="font-bold text-gray-800">Order Summary</h3>
+                            </div>
+                            <div className="p-6 space-y-4">
+                                <div className="flex justify-between items-center text-sm font-medium">
+                                    <span className="text-gray-500">Status</span>
+                                    <span className="bg-yellow-50 text-yellow-600 px-3 py-1 rounded-lg text-xs font-black">Pending Review</span>
+                                </div>
+                                <div className="flex justify-between items-center pt-2">
+                                    <span className="text-gray-500 text-sm font-medium">Total Amount</span>
+                                    <span className="text-lg font-black text-green-600 tracking-tight">AED 0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Quick Actions Card */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50">
+                                <h3 className="font-bold text-gray-800">Quick Actions</h3>
+                            </div>
+                            <div className="p-6 space-y-3">
+                                <button onClick={() => setView('list')} className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold flex items-center justify-center transition-all active:scale-95 shadow-md shadow-blue-200">
+                                    <LayoutList className="w-4 h-4 mr-2" />
+                                    All Orders
+                                </button>
+                                <button onClick={() => window.location.reload()} className="w-full py-3 bg-slate-500 hover:bg-slate-600 text-white rounded-xl text-sm font-bold flex items-center justify-center transition-all active:scale-95 shadow-md shadow-slate-200">
+                                    <RotateCcw className="w-4 h-4 mr-2" />
+                                    Reset Form
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Create Order Submit Card */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50">
+                                <h3 className="font-bold text-gray-800">Create Order</h3>
+                            </div>
+                            <div className="p-6 space-y-3">
+                                <button
+                                    onClick={() => { alert('Order Created!'); setView('list'); }}
+                                    className="w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-sm font-black flex items-center justify-center transition-all active:scale-95 shadow-xl shadow-orange-500/30"
+                                >
+                                    <Save className="w-4 h-4 mr-2" />
+                                    Create Order
+                                </button>
+                                <button
+                                    onClick={() => setView('list')}
+                                    className="w-full py-3 bg-slate-500 hover:bg-slate-600 text-white rounded-xl text-sm font-bold flex items-center justify-center transition-all active:scale-95"
+                                >
+                                    <X className="w-4 h-4 mr-2" />
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* Floating help button */}
+                <div className="fixed bottom-8 right-8 w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-2xl cursor-pointer hover:bg-indigo-700 transition-all hover:scale-110 active:scale-90 z-20">
+                    <span className="text-xl font-black">?</span>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-6">
             {/* Breadcrumb */}
@@ -59,7 +369,7 @@ export function SellerOrdersPage() {
                 </div>
                 <div className="flex gap-2">
                     <button
-                        onClick={() => setShowCreateModal(true)}
+                        onClick={() => setView('create')}
                         className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-all active:scale-95 shadow-sm hover:shadow-md"
                     >
                         <Plus className="w-4 h-4 mr-2" />
@@ -272,110 +582,6 @@ export function SellerOrdersPage() {
                     </table>
                 </div>
             </div>
-            {/* Create Order Modal */}
-            {showCreateModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-orange-50/50">
-                            <div className="flex items-center">
-                                <div className="p-2 bg-orange-100 rounded-lg mr-3">
-                                    <Plus className="w-5 h-5 text-orange-600" />
-                                </div>
-                                <div>
-                                    <h2 className="text-xl font-bold text-gray-800">Create New Order</h2>
-                                    <p className="text-xs text-gray-500">Fill in the details to create a new customer order</p>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => setShowCreateModal(false)}
-                                className="p-2 hover:bg-white rounded-full transition-colors text-gray-400 hover:text-gray-600 shadow-sm"
-                            >
-                                <X className="w-5 h-5" />
-                            </button>
-                        </div>
-
-                        <form className="p-6 overflow-y-auto max-h-[70vh]">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* Customer Info */}
-                                <div className="space-y-4">
-                                    <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Customer Details</h3>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
-                                        <input type="text" placeholder="Enter name" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                                        <input type="tel" placeholder="+971 00 000 0000" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Shipping Address</label>
-                                        <textarea rows="3" placeholder="Enter full address" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none resize-none"></textarea>
-                                    </div>
-                                </div>
-
-                                {/* Order Info */}
-                                <div className="space-y-4">
-                                    <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Order Details</h3>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Select Product</label>
-                                        <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none">
-                                            <option>Select a product</option>
-                                            <option>Wireless Headphones</option>
-                                            <option>Smart Watch Ultra</option>
-                                            <option>Leather Messenger Bag</option>
-                                        </select>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
-                                            <input type="number" min="1" defaultValue="1" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Total Amount</label>
-                                            <div className="relative">
-                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">AED</span>
-                                                <input type="number" placeholder="0.00" className="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
-                                        <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none">
-                                            <option>Cash on Delivery</option>
-                                            <option>Credit Card</option>
-                                            <option>Bank Transfer</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Reference ID (Optional)</label>
-                                        <input type="text" placeholder="Internal ID" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none" />
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
-                            <button
-                                onClick={() => setShowCreateModal(false)}
-                                className="px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-600 hover:bg-white transition-all active:scale-95 shadow-sm"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    alert('Order Successfully Created!');
-                                    setShowCreateModal(false);
-                                }}
-                                className="px-6 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium hover:bg-orange-700 transition-all active:scale-95 shadow-sm hover:shadow-md flex items-center"
-                            >
-                                <Save className="w-4 h-4 mr-2" />
-                                Save Order
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
             {/* Import Orders Modal */}
             {showImportModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">

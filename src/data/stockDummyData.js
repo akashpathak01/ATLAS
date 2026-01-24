@@ -42,11 +42,39 @@ export const stockPickingData = {
 
 export const stockReturnsData = {
     stats: {
-        total: 0,
-        awaitingInspection: 0,
-        completed: 0
+        total: 12,
+        awaitingInspection: 8,
+        completed: 4
     },
-    orders: [] // Empty
+    orders: [
+        {
+            id: 'RET-1024',
+            seller: 'Global Electronics',
+            reason: 'Defective Item',
+            arrivalDate: '2024-01-20',
+            itemCount: 2,
+            status: 'awaiting',
+            inspectionDate: null
+        },
+        {
+            id: 'RET-1025',
+            seller: 'Fashion Hub',
+            reason: 'Wrong Size',
+            arrivalDate: '2024-01-21',
+            itemCount: 1,
+            status: 'completed',
+            inspectionDate: '2024-01-22'
+        },
+        {
+            id: 'RET-1026',
+            seller: 'Home Decor Co',
+            reason: 'Changed Mind',
+            arrivalDate: '2024-01-22',
+            itemCount: 3,
+            status: 'awaiting',
+            inspectionDate: null
+        }
+    ]
 };
 
 export const stockWarehousesData = {

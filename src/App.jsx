@@ -64,6 +64,10 @@ import { StockReturnsPage } from './pages/stock/StockReturnsPage';
 import { StockWarehousesPage } from './pages/stock/StockWarehousesPage';
 import { StockHistoryPage } from './pages/stock/StockHistoryPage';
 import { PackagingDashboardPage } from './pages/packaging/PackagingDashboardPage';
+import { PackagingOrdersPage } from './pages/packaging/PackagingOrdersPage';
+import { PackagingMaterialsPage } from './pages/packaging/PackagingMaterialsPage';
+import { PackagingManagementPage } from './pages/packaging/PackagingManagementPage';
+import { PackagingReportsPage } from './pages/packaging/PackagingReportsPage';
 import { DeliveryDashboardPage } from './pages/delivery/DeliveryDashboardPage';
 import { DeliveryOrdersPage } from './pages/delivery/DeliveryOrdersPage';
 import { DeliveryPerformancePage } from './pages/delivery/DeliveryPerformancePage';
@@ -372,6 +376,26 @@ function App() {
           <Route path="/packaging/dashboard" element={
             <MainLayout>
               <PackagingDashboardPage />
+            </MainLayout>
+          } />
+          <Route path="/packaging/orders" element={
+            <MainLayout>
+              <PackagingOrdersPage />
+            </MainLayout>
+          } />
+          <Route path="/packaging/materials" element={
+            <MainLayout>
+              <PackagingMaterialsPage />
+            </MainLayout>
+          } />
+          <Route path="/packaging/management" element={
+            <MainLayout>
+              <PackagingManagementPage />
+            </MainLayout>
+          } />
+          <Route path="/packaging/reports" element={
+            <MainLayout>
+              <PackagingReportsPage />
             </MainLayout>
           } />
 

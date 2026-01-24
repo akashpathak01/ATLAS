@@ -1,333 +1,257 @@
 import React, { useState } from 'react';
-import { managerPerformanceData } from '../../data/managerDummyData';
-import { Home, ChartLine as ChartLineIcon, Download, Users, Percent, Trophy, ShoppingCart, BarChart, Table, Star, ArrowLeft, X, Eye, FileText, Calendar, CheckCircle2, TrendingUp, AlertCircle, PieChart, Activity, Clock } from 'lucide-react';
+import { Home, TrendingUp, Download, Users, Percent, Trophy, ShoppingCart, BarChart, Table, Star, ArrowLeft, Eye, FileText, CheckCircle2, Layout, Lightbulb, Award, Timer } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function ManagerPerformancePage() {
-    const [showExportModal, setShowExportModal] = useState(false);
-    const [selectedAgent, setSelectedAgent] = useState(null);
-    const [showDetailsModal, setShowDetailsModal] = useState(false);
-    const [exportFormat, setExportFormat] = useState('PDF');
-
-    const handleViewDetails = (agent) => {
-        setSelectedAgent(agent);
-        setShowDetailsModal(true);
-    };
-
-    const handleExport = () => {
-        alert(`Generating ${exportFormat} performance report...`);
-        setShowExportModal(false);
-    };
+    const navigate = useNavigate();
 
     return (
         <div className="space-y-6">
-            {/* Breadcrumb */}
-            <div className="flex items-center text-sm text-gray-500">
-                <Home className="w-4 h-4 mr-2" />
-                <span className="mr-2">Home</span>
-            </div>
-
-            {/* Header */}
-            <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                <div className="flex items-center">
-                    <div className="p-3 bg-white rounded-xl mr-4">
-                        <ChartLineIcon className="w-6 h-6 text-orange-500" />
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div className="flex items-center gap-4">
+                    <div className="p-2.5">
+                        <TrendingUp className="w-8 h-8 text-orange-600" />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold text-orange-500">Performance Analytics</h1>
-                        <p className="text-gray-500 text-sm mt-1">Real-time performance monitoring and historical reporting</p>
+                        <h1 className="text-2xl font-bold text-orange-600">Agent Performance</h1>
+                        <p className="text-sm text-gray-500 font-medium">Performance reports and analytics for call center agents</p>
                     </div>
                 </div>
-                <div className="flex space-x-3">
+                <div className="flex gap-3 mt-4 md:mt-0">
                     <button
-                        onClick={() => window.history.back()}
-                        className="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-lg flex items-center text-sm font-medium hover:bg-gray-50 transition-all active:scale-95"
+                        onClick={() => navigate('/manager/dashboard')}
+                        className="px-6 py-2.5 bg-gray-50 text-gray-700 font-bold rounded-xl hover:bg-gray-100 flex items-center gap-2 border border-gray-100 shadow-sm transition-all text-sm"
                     >
-                        <ArrowLeft className="w-4 h-4 mr-2" /> Back to Dashboard
+                        <ArrowLeft className="w-4 h-4" /> Back to Dashboard
                     </button>
-                    <button
-                        onClick={() => setShowExportModal(true)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium transition-all active:scale-95 shadow-lg shadow-blue-100"
-                    >
-                        <Download className="w-4 h-4 mr-2" />
-                        Export Report
+                    <button className="px-6 py-2.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 flex items-center gap-2 shadow-lg shadow-blue-100 transition-all text-sm">
+                        <Download className="w-4 h-4" /> Export Report
                     </button>
                 </div>
             </div>
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center">
-                    <div className="p-3 bg-blue-50 rounded-lg mr-4">
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50 flex items-center gap-4">
+                    <div className="p-3 bg-blue-50 rounded-xl">
                         <Users className="w-6 h-6 text-blue-500" />
                     </div>
                     <div>
-                        <p className="text-xs text-gray-500 mb-1">Total Agents</p>
-                        <h3 className="text-2xl font-bold text-gray-900">{managerPerformanceData.stats.totalAgents}</h3>
-                        <p className="text-xs text-green-600 font-medium">↑ {managerPerformanceData.stats.activeAgents}</p>
+                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-tight">Total Agents</p>
+                        <h3 className="text-2xl font-black text-gray-900 leading-none">1</h3>
+                        <p className="text-[10px] font-bold text-green-500 mt-1 flex items-center gap-0.5">↑ Active</p>
                     </div>
                 </div>
-                <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center">
-                    <div className="p-3 bg-green-50 rounded-lg mr-4">
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50 flex items-center gap-4">
+                    <div className="p-3 bg-green-50 rounded-xl">
                         <Percent className="w-6 h-6 text-green-500" />
                     </div>
                     <div>
-                        <p className="text-xs text-gray-500 mb-1">Avg Performance</p>
-                        <h3 className="text-2xl font-bold text-gray-900">{managerPerformanceData.stats.avgPerformance}</h3>
-                        <p className="text-xs text-green-600 font-medium">{managerPerformanceData.stats.performanceChange}</p>
+                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-tight">Avg Performance</p>
+                        <h3 className="text-2xl font-black text-gray-900 leading-none">87%</h3>
+                        <p className="text-[10px] font-bold text-green-500 mt-1 flex items-center gap-0.5">↑ This Month</p>
                     </div>
                 </div>
-                <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center">
-                    <div className="p-3 bg-yellow-50 rounded-lg mr-4">
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50 flex items-center gap-4">
+                    <div className="p-3 bg-yellow-50 rounded-xl">
                         <Trophy className="w-6 h-6 text-yellow-500" />
                     </div>
                     <div>
-                        <p className="text-xs text-gray-500 mb-1">Top Performer</p>
-                        <h3 className="text-lg font-bold text-gray-900">{managerPerformanceData.stats.topPerformer}</h3>
-                        <p className="text-xs text-yellow-600 font-medium">↑ {managerPerformanceData.stats.topPerformerPeriod}</p>
+                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-tight">Top Performer</p>
+                        <h3 className="text-xl font-black text-gray-900 leading-none">Call Center Agent</h3>
+                        <p className="text-[10px] font-bold text-yellow-600 mt-1 flex items-center gap-0.5">↑ This Week</p>
                     </div>
                 </div>
-                <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center">
-                    <div className="p-3 bg-purple-50 rounded-lg mr-4">
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-50 flex items-center gap-4">
+                    <div className="p-3 bg-purple-50 rounded-xl">
                         <ShoppingCart className="w-6 h-6 text-purple-500" />
                     </div>
                     <div>
-                        <p className="text-xs text-gray-500 mb-1">Total Orders</p>
-                        <h3 className="text-2xl font-bold text-gray-900">{managerPerformanceData.stats.totalOrders}</h3>
-                        <p className="text-xs text-purple-600 font-medium">{managerPerformanceData.stats.ordersPeriod}</p>
+                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-tight">Total Orders</p>
+                        <h3 className="text-2xl font-black text-gray-900 leading-none">0</h3>
+                        <p className="text-[10px] font-bold text-purple-600 mt-1 flex items-center gap-0.5">↑ All Time</p>
                     </div>
                 </div>
             </div>
 
-            {/* Charts Section */}
+            {/* Trends and Comparison Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm min-h-[300px]">
-                    <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                        <BarChart className="w-5 h-5 mr-2 text-blue-500" />
-                        Performance Trends
-                    </h3>
-                    <div className="flex items-center justify-center h-full bg-gray-50/50 rounded-lg border border-dashed border-gray-200">
-                        <div className="text-center text-gray-400">
-                            <ChartLineIcon className="w-8 h-8 mx-auto mb-2" />
-                            <p>Performance chart will be displayed here</p>
-                        </div>
+                <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-50 min-h-[400px] flex flex-col">
+                    <div className="flex items-center gap-2 mb-8">
+                        <BarChart className="w-5 h-5 text-blue-500" />
+                        <h3 className="text-lg font-bold text-gray-800">Performance Trends</h3>
+                    </div>
+                    <div className="flex-1 bg-gray-50/50 rounded-2xl border border-dashed border-gray-200 flex items-center justify-center flex-col gap-4">
+                        <TrendingUp className="w-12 h-12 text-gray-300" />
+                        <p className="text-sm font-bold text-gray-400 italic">Performance chart will be displayed here</p>
                     </div>
                 </div>
-                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm min-h-[300px]">
-                    <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                        <ChartLineIcon className="w-5 h-5 mr-2 text-green-500" />  {/* Placeholder icon since 'Agent Comparison' icon isn't standard */}
-                        Agent Comparison
-                    </h3>
-                    <div className="flex items-center justify-center h-full bg-gray-50/50 rounded-lg border border-dashed border-gray-200">
-                        <div className="text-center text-gray-400">
-                            <BarChart className="w-8 h-8 mx-auto mb-2" />
-                            <p>Comparison chart will be displayed here</p>
-                        </div>
+                <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-50 min-h-[400px] flex flex-col">
+                    <div className="flex items-center gap-2 mb-8">
+                        <Layout className="w-5 h-5 text-green-500" />
+                        <h3 className="text-lg font-bold text-gray-800">Agent Comparison</h3>
+                    </div>
+                    <div className="flex-1 bg-gray-50/50 rounded-2xl border border-dashed border-gray-200 flex items-center justify-center flex-col gap-4">
+                        <Table className="w-12 h-12 text-gray-300" />
+                        <p className="text-sm font-bold text-gray-400 italic">Comparison chart will be displayed here</p>
                     </div>
                 </div>
             </div>
 
             {/* Agent Performance Details Table */}
-            <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                <div className="p-5 border-b border-gray-100 flex justify-between items-center">
-                    <div className="flex items-center">
-                        <div className="p-1.5 bg-blue-100 rounded mr-2">
-                            <Table className="w-4 h-4 text-blue-600" />
-                        </div>
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+                <div className="p-8 border-b border-gray-50 flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                        <Layout className="w-6 h-6 text-blue-500" />
                         <div>
                             <h3 className="text-lg font-bold text-gray-900">Agent Performance Details</h3>
-                            <p className="text-xs text-gray-500">Detailed performance metrics for each agent</p>
+                            <p className="text-xs font-bold text-gray-400">Detailed performance metrics for each agent</p>
                         </div>
                     </div>
-                    <select className="border border-gray-200 rounded-lg text-sm px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select className="px-4 py-2 bg-white border border-gray-100 rounded-xl text-sm font-bold text-gray-600 focus:outline-none focus:border-blue-500 cursor-pointer">
                         <option>This Week</option>
                     </select>
                 </div>
                 <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left">
-                        <thead className="text-xs text-gray-500 uppercase bg-yellow-100/50">
+                    <table className="w-full">
+                        <thead className="bg-yellow-100/50">
                             <tr>
-                                <th className="px-6 py-4 font-bold text-gray-600">AGENT</th>
-                                <th className="px-6 py-4 font-bold text-gray-600">ORDERS HANDLED</th>
-                                <th className="px-6 py-4 font-bold text-gray-600">SUCCESS RATE</th>
-                                <th className="px-6 py-4 font-bold text-gray-600">AVG RESPONSE TIME</th>
-                                <th className="px-6 py-4 font-bold text-gray-600">CUSTOMER RATING</th>
-                                <th className="px-6 py-4 font-bold text-gray-600">PERFORMANCE SCORE</th>
-                                <th className="px-6 py-4 font-bold text-gray-600 text-right">ACTION</th>
+                                <th className="px-8 py-4 text-left text-[11px] font-black text-yellow-700 uppercase tracking-widest">AGENT</th>
+                                <th className="px-8 py-4 text-left text-[11px] font-black text-yellow-700 uppercase tracking-widest">ORDERS HANDLED</th>
+                                <th className="px-8 py-4 text-left text-[11px] font-black text-yellow-700 uppercase tracking-widest">SUCCESS RATE</th>
+                                <th className="px-8 py-4 text-left text-[11px] font-black text-yellow-700 uppercase tracking-widest">AVG RESPONSE TIME</th>
+                                <th className="px-8 py-4 text-left text-[11px] font-black text-yellow-700 uppercase tracking-widest">CUSTOMER RATING</th>
+                                <th className="px-8 py-4 text-left text-[11px] font-black text-yellow-700 uppercase tracking-widest">PERFORMANCE SCORE</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100">
-                            {managerPerformanceData.agentDetails.map((agent, idx) => (
-                                <tr key={idx} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center mr-3 text-orange-500">
-                                                <Users className="w-4 h-4" />
-                                            </div>
-                                            <div>
-                                                <div className="font-bold text-gray-900">{agent.agent}</div>
-                                                <div className="text-xs text-gray-500">{agent.email}</div>
-                                            </div>
+                        <tbody className="divide-y divide-gray-50">
+                            <tr className="hover:bg-gray-50/50 transition-colors group">
+                                <td className="px-8 py-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center border border-orange-100">
+                                            <Users className="w-5 h-5 text-orange-500" />
                                         </div>
-                                    </td>
-                                    <td className="px-6 py-4 font-bold text-gray-900">{agent.ordersHandled}</td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center space-x-2">
-                                            <div className="w-16 bg-gray-200 rounded-full h-1.5">
-                                                <div className="bg-green-500 h-1.5 rounded-full" style={{ width: agent.successRate }}></div>
-                                            </div>
-                                            <span className="text-xs font-medium text-gray-600">{agent.successRate}</span>
+                                        <div>
+                                            <h4 className="font-bold text-gray-900 text-sm">Call Center Agent</h4>
+                                            <p className="text-xs font-medium text-gray-400">callcenter@atlas.com</p>
                                         </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-gray-600">{agent.avgResponseTime}</td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center text-yellow-400">
-                                            <Star className="w-4 h-4 fill-current" />
-                                            <Star className="w-4 h-4 fill-current" />
-                                            <Star className="w-4 h-4 fill-current" />
-                                            <Star className="w-4 h-4 fill-current" />
-                                            <Star className="w-4 h-4 text-gray-300" />
-                                            <span className="ml-2 text-gray-600 text-xs font-medium">{agent.rating}</span>
+                                    </div>
+                                </td>
+                                <td className="px-8 py-6">
+                                    <span className="font-black text-gray-900">0</span>
+                                </td>
+                                <td className="px-8 py-6">
+                                    <div className="flex items-center gap-3">
+                                        <div className="flex-1 w-24 bg-gray-100 h-2 rounded-full overflow-hidden">
+                                            <div className="bg-gray-300 h-full w-0"></div>
                                         </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase border ${parseFloat(agent.performanceScore) >= 90 ? 'bg-green-50 text-green-600 border-green-100' :
-                                            parseFloat(agent.performanceScore) >= 80 ? 'bg-blue-50 text-blue-600 border-blue-100' :
-                                                'bg-orange-50 text-orange-600 border-orange-100'
-                                            }`}>
-                                            {agent.performanceScore}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <button
-                                            onClick={() => handleViewDetails(agent)}
-                                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                        >
-                                            <Eye className="w-4 h-4" />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
+                                        <span className="text-xs font-black text-gray-900">0%</span>
+                                    </div>
+                                </td>
+                                <td className="px-8 py-6">
+                                    <span className="font-bold text-gray-600 text-sm">2.5 min</span>
+                                </td>
+                                <td className="px-8 py-6">
+                                    <div className="flex items-center gap-1 text-yellow-400">
+                                        <Star className="w-4 h-4 fill-current" />
+                                        <Star className="w-4 h-4 fill-current" />
+                                        <Star className="w-4 h-4 fill-current" />
+                                        <Star className="w-4 h-4 fill-current" />
+                                        <Star className="w-4 h-4 text-gray-200" />
+                                        <span className="ml-2 text-sm font-black text-gray-900">4.2</span>
+                                    </div>
+                                </td>
+                                <td className="px-8 py-6">
+                                    <span className="px-4 py-1.5 bg-red-50 text-red-500 rounded-full text-[11px] font-black border border-red-100">10%</span>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            {/* Export Report Modal */}
-            {showExportModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 text-left">
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
-                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-blue-50/50">
-                            <div className="flex items-center">
-                                <div className="p-2 bg-blue-100 rounded-lg mr-3">
-                                    <FileText className="w-5 h-5 text-blue-600" />
-                                </div>
-                                <h2 className="text-xl font-bold text-gray-800">Export Analytics</h2>
-                            </div>
-                            <button onClick={() => setShowExportModal(false)} className="p-2 hover:bg-white rounded-full"><X className="w-5 h-5" /></button>
-                        </div>
-                        <div className="p-8 space-y-6">
-                            <div>
-                                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Target Range</label>
-                                <div className="grid grid-cols-2 gap-3">
-                                    {['Active Agents', 'Historical Data'].map(range => (
-                                        <button key={range} className="p-4 border-2 border-gray-50 hover:border-blue-200 rounded-xl text-center focus:border-blue-600 focus:bg-blue-50 transition-all">
-                                            <p className="text-xs font-black text-gray-800 uppercase">{range}</p>
-                                        </button>
-                                    ))}
+
+            {/* Bottom Grid: Top Performers, Tips, Achievements */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Top Performers */}
+                <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-50 flex flex-col h-full">
+                    <div className="flex items-center gap-3 mb-8">
+                        <Trophy className="w-6 h-6 text-yellow-500" />
+                        <h3 className="text-lg font-bold text-gray-800">Top Performers</h3>
+                    </div>
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100 group hover:shadow-md transition-all">
+                            <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center font-black text-yellow-700">1</div>
+                                <div>
+                                    <h4 className="font-bold text-gray-900 text-sm">Call Center Agent</h4>
+                                    <p className="text-[11px] font-bold text-gray-400 uppercase tracking-tight">0 orders</p>
                                 </div>
                             </div>
-                            <div>
-                                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5">Export Format</label>
-                                <div className="flex gap-2">
-                                    {['PDF', 'Excel', 'CSV'].map(fmt => (
-                                        <button
-                                            key={fmt}
-                                            onClick={() => setExportFormat(fmt)}
-                                            className={`flex-1 py-2.5 rounded-xl border-2 text-xs font-black transition-all ${exportFormat === fmt ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-gray-50 text-gray-400 hover:border-gray-200'
-                                                }`}
-                                        >
-                                            {fmt}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex gap-3">
-                            <button onClick={() => setShowExportModal(false)} className="flex-1 py-3 text-sm font-bold text-gray-400 hover:text-gray-600 transition-all">Discard</button>
-                            <button onClick={handleExport} className="flex-[2] py-3 bg-blue-600 text-white rounded-xl text-sm font-black hover:bg-blue-700 shadow-xl shadow-blue-100 transition-all active:scale-95 flex items-center justify-center">
-                                <Download className="w-4 h-4 mr-2" /> Download Report
-                            </button>
+                            <span className="text-sm font-black text-yellow-600">10%</span>
                         </div>
                     </div>
                 </div>
-            )}
 
-            {/* Agent Statistics Detailed Modal */}
-            {showDetailsModal && selectedAgent && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 text-left">
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-orange-50/50">
-                            <div className="flex items-center">
-                                <div className="p-2 bg-orange-100 rounded-lg mr-3">
-                                    <Activity className="w-5 h-5 text-orange-600" />
-                                </div>
-                                <div>
-                                    <h2 className="text-xl font-bold text-gray-800">Agent Performance Deep-Dive</h2>
-                                    <p className="text-xs text-gray-500">{selectedAgent.agent} • Detailed Metrics</p>
-                                </div>
-                            </div>
-                            <button onClick={() => setShowDetailsModal(false)} className="p-2 hover:bg-white rounded-full"><X className="w-5 h-5" /></button>
+                {/* Performance Tips */}
+                <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-50 flex flex-col h-full">
+                    <div className="flex items-center gap-3 mb-8">
+                        <Lightbulb className="w-6 h-6 text-blue-500" />
+                        <h3 className="text-lg font-bold text-gray-800">Performance Tips</h3>
+                    </div>
+                    <div className="space-y-4">
+                        <div className="p-6 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm shadow-blue-50">
+                            <h4 className="text-sm font-bold text-blue-900 mb-2">Improve Response Time</h4>
+                            <p className="text-[11px] font-medium text-blue-600 leading-relaxed">Focus on quick customer responses to increase satisfaction scores.</p>
                         </div>
-                        <div className="p-8">
-                            <div className="grid grid-cols-3 gap-6 mb-8">
-                                <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Calls</p>
-                                    <p className="text-xl font-black text-gray-800">{selectedAgent.totalCalls || 'N/A'}</p>
-                                </div>
-                                <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Handled Orders</p>
-                                    <p className="text-xl font-black text-gray-800">{selectedAgent.ordersHandled}</p>
-                                </div>
-                                <div className="p-4 bg-red-50 rounded-2xl border border-red-100">
-                                    <p className="text-[10px] font-black text-red-400 uppercase tracking-widest mb-1">Missed Calls</p>
-                                    <p className="text-xl font-black text-red-600">{selectedAgent.missedCalls || 'N/A'}</p>
-                                </div>
-                            </div>
-
-                            <div className="space-y-6">
-                                <div>
-                                    <div className="flex justify-between text-[10px] font-black text-gray-400 uppercase mb-2">
-                                        <span>Conversion Success Rate</span>
-                                        <span className="text-green-600">{selectedAgent.successRate}</span>
-                                    </div>
-                                    <div className="w-full bg-gray-100 h-3 rounded-full overflow-hidden">
-                                        <div className="bg-green-500 h-full transition-all duration-1000 ease-out" style={{ width: selectedAgent.successRate }}></div>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-8">
-                                    <div className="flex items-center gap-4 bg-orange-50/50 p-4 rounded-2xl border border-orange-100">
-                                        <div className="p-3 bg-white rounded-xl shadow-sm"><Clock className="w-5 h-5 text-orange-600" /></div>
-                                        <div>
-                                            <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest">Avg Response</p>
-                                            <p className="text-sm font-black text-gray-800">{selectedAgent.avgResponseTime}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-4 bg-yellow-50/50 p-4 rounded-2xl border border-yellow-100">
-                                        <div className="p-3 bg-white rounded-xl shadow-sm"><Star className="w-5 h-5 text-yellow-600" /></div>
-                                        <div>
-                                            <p className="text-[10px] font-black text-yellow-500 uppercase tracking-widest">Customer Score</p>
-                                            <p className="text-sm font-black text-gray-800">{selectedAgent.rating} / 5.0</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div className="p-6 bg-green-50 rounded-2xl border border-green-100 shadow-sm shadow-green-50">
+                            <h4 className="text-sm font-bold text-green-900 mb-2">Order Completion</h4>
+                            <p className="text-[11px] font-medium text-green-600 leading-relaxed">Ensure all assigned orders are completed on time.</p>
                         </div>
-                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-center">
-                            <button onClick={() => setShowDetailsModal(false)} className="px-16 py-3 bg-gray-900 text-white rounded-2xl text-xs font-black shadow-lg hover:bg-black transition-all active:scale-95">Close Statistics</button>
+                        <div className="p-6 bg-yellow-50 rounded-2xl border border-yellow-100 shadow-sm shadow-yellow-50">
+                            <h4 className="text-sm font-bold text-yellow-900 mb-2">Customer Communication</h4>
+                            <p className="text-[11px] font-medium text-yellow-600 leading-relaxed">Maintain clear and professional communication with customers.</p>
                         </div>
                     </div>
                 </div>
-            )}
+
+                {/* Recent Achievements */}
+                <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-50 flex flex-col h-full">
+                    <div className="flex items-center gap-3 mb-8">
+                        <Award className="w-6 h-6 text-purple-600" />
+                        <h3 className="text-lg font-bold text-gray-800">Recent Achievements</h3>
+                    </div>
+                    <div className="space-y-8 mt-4">
+                        <div className="flex items-start gap-5">
+                            <div className="p-3 bg-green-50 rounded-full">
+                                <CheckCircle2 className="w-5 h-5 text-green-500" />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-gray-900 text-sm">100 Orders Completed</h4>
+                                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-tight mt-1">This month</p>
+                            </div>
+                        </div>
+                        <div className="flex items-start gap-5">
+                            <div className="p-3 bg-blue-50 rounded-full">
+                                <Star className="w-5 h-5 text-blue-500" />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-gray-900 text-sm">95% Customer Rating</h4>
+                                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-tight mt-1">This week</p>
+                            </div>
+                        </div>
+                        <div className="flex items-start gap-5">
+                            <div className="p-3 bg-purple-50 rounded-full">
+                                <Timer className="w-5 h-5 text-purple-500" />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-gray-900 text-sm">Fastest Response</h4>
+                                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-tight mt-1">1.2 min average</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

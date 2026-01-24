@@ -1,16 +1,16 @@
 
 import React, { useState } from 'react';
 import { managerAgentsData } from '../../data/managerDummyData';
-import { Home, Phone, UserPlus, Search, Filter, MoreVertical, Mail, Activity, BarChart2, X, User, MapPin, Calendar, Star, Users } from 'lucide-react';
+import { Home, Phone, UserPlus, Search, Filter, MoreVertical, Mail, Activity, BarChart2, X, User, MapPin, Calendar, Star, Users, ArrowLeft, CheckCircle2, Info, Edit, ShoppingBag, CheckCircle, Clock, Percent, LayoutGrid, Plus, BarChart3, ExternalLink, RefreshCcw, Send } from 'lucide-react';
 
 export function ManagerAgentsPage() {
+    const [view, setView] = useState('list'); // 'list' or 'details'
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('All');
 
     // Modal states
     const [showAddAgentModal, setShowAddAgentModal] = useState(false);
     const [selectedAgent, setSelectedAgent] = useState(null);
-    const [showViewModal, setShowViewModal] = useState(false);
 
     // Filter agents based on search and status
     const filteredAgents = managerAgentsData.filter(agent => {
@@ -28,8 +28,260 @@ export function ManagerAgentsPage() {
 
     const handleViewDetails = (agent) => {
         setSelectedAgent(agent);
-        setShowViewModal(true);
+        setView('details');
     };
+
+    const confirmDelete = () => {
+        alert('Confirm agents removal?');
+    };
+
+    if (view === 'details' && selectedAgent) {
+        return (
+            <div className="space-y-6 pb-20 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                {/* Header Actions */}
+                <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-orange-50 rounded-lg">
+                            <User className="w-5 h-5 text-orange-500" />
+                        </div>
+                        <div>
+                            <h1 className="text-xl font-bold text-gray-800">Agent Detail</h1>
+                            <p className="text-xs text-gray-500 font-medium">{selectedAgent.role || 'Call Center Agent'}</p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={() => setView('list')}
+                            className="bg-white hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg flex items-center text-sm font-bold border border-gray-200 transition-all active:scale-95 shadow-sm"
+                        >
+                            <ArrowLeft className="w-4 h-4 mr-2" />
+                            Back to Agents
+                        </button>
+                        <button
+                            className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg flex items-center text-sm font-bold transition-all active:scale-95 shadow-md shadow-orange-100"
+                        >
+                            <Edit className="w-4 h-4 mr-2" />
+                            Edit Agent
+                        </button>
+                    </div>
+                </div>
+
+                {/* Profile Summary Card */}
+                <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm flex items-center justify-between group relative overflow-hidden">
+                    <div className="flex items-center gap-6 z-10">
+                        <div className="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center text-3xl font-black text-orange-400 border border-orange-100 shadow-inner group-hover:scale-110 transition-transform">
+                            <User className="w-10 h-10" />
+                        </div>
+                        <div className="space-y-1">
+                            <h2 className="text-2xl font-black text-gray-900 leading-tight">{selectedAgent.name}</h2>
+                            <p className="text-sm font-bold text-gray-500 tracking-tight">{selectedAgent.role || 'Call Center Agent'}</p>
+                            <p className="text-xs font-medium text-blue-500 hover:underline cursor-pointer">{selectedAgent.email}</p>
+                        </div>
+                    </div>
+                    <div className="text-right space-y-3 z-10">
+                        <span className="px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-green-200">
+                            {selectedAgent.status || 'Active'}
+                        </span>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+                            Last Login: <span className="text-gray-600">Jan 24, 2026 01:37</span>
+                        </p>
+                    </div>
+                    {/* Abstract background blobs */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50/30 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    {/* Left Column (70%) */}
+                    <div className="lg:col-span-8 space-y-6">
+                        {/* Basic Information */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50 flex items-center gap-3">
+                                <div className="p-1.5 bg-blue-50 rounded-lg">
+                                    <Info className="w-4 h-4 text-blue-500" />
+                                </div>
+                                <h3 className="text-sm font-black text-gray-800 uppercase tracking-widest">Basic Information</h3>
+                            </div>
+                            <div className="p-8 grid grid-cols-2 gap-x-12 gap-y-6">
+                                <div className="space-y-1">
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase">Full Name</p>
+                                    <p className="text-sm font-bold text-gray-800">{selectedAgent.name}</p>
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase">Email</p>
+                                    <p className="text-sm font-bold text-blue-500">{selectedAgent.email}</p>
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase">Phone</p>
+                                    <p className="text-sm font-bold text-gray-400 italic">Not provided</p>
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase">Status</p>
+                                    <span className="px-2.5 py-0.5 bg-green-100 text-green-700 rounded-lg text-[10px] font-black uppercase tracking-widest">
+                                        {selectedAgent.status || 'Active'}
+                                    </span>
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase">Date Joined</p>
+                                    <p className="text-sm font-bold text-gray-800">January 22, 2026</p>
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase">Last Login</p>
+                                    <p className="text-sm font-bold text-gray-800">Jan 24, 2026 01:37</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Performance Statistics */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50 flex items-center gap-3">
+                                <div className="p-1.5 bg-green-50 rounded-lg">
+                                    <Activity className="w-4 h-4 text-green-500" />
+                                </div>
+                                <h3 className="text-sm font-black text-gray-800 uppercase tracking-widest">Performance Statistics</h3>
+                            </div>
+                            <div className="p-8 grid grid-cols-4 gap-4 text-center">
+                                <div className="flex flex-col items-center space-y-2">
+                                    <div className="p-3 bg-blue-50 rounded-full text-blue-600 mb-2">
+                                        <ShoppingBag className="w-5 h-5" />
+                                    </div>
+                                    <p className="text-2xl font-black text-gray-900">0</p>
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase">Total Orders</p>
+                                </div>
+                                <div className="flex flex-col items-center space-y-2">
+                                    <div className="p-3 bg-green-50 rounded-full text-green-600 mb-2">
+                                        <CheckCircle className="w-5 h-5" />
+                                    </div>
+                                    <p className="text-2xl font-black text-gray-900">0</p>
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase">Completed</p>
+                                </div>
+                                <div className="flex flex-col items-center space-y-2">
+                                    <div className="p-3 bg-yellow-50 rounded-full text-yellow-600 mb-2">
+                                        <Clock className="w-5 h-5" />
+                                    </div>
+                                    <p className="text-2xl font-black text-gray-900">0</p>
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase">Pending</p>
+                                </div>
+                                <div className="flex flex-col items-center space-y-2">
+                                    <div className="p-3 bg-purple-50 rounded-full text-purple-600 mb-2">
+                                        <Percent className="w-5 h-5" />
+                                    </div>
+                                    <p className="text-2xl font-black text-gray-900">{selectedAgent.performance || '85%'}</p>
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase">Success Rate</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Recent Orders */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50 flex justify-between items-center">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-1.5 bg-purple-50 rounded-lg">
+                                        <LayoutGrid className="w-4 h-4 text-purple-500" />
+                                    </div>
+                                    <h3 className="text-sm font-black text-gray-800 uppercase tracking-widest">Recent Orders</h3>
+                                </div>
+                                <button className="text-[10px] font-bold text-blue-600 hover:underline">View all</button>
+                            </div>
+                            <div className="p-16 flex flex-col items-center justify-center text-center">
+                                <div className="p-4 bg-gray-50 rounded-full mb-4">
+                                    <ShoppingBag className="w-10 h-10 text-gray-200" />
+                                </div>
+                                <p className="text-sm font-bold text-gray-400">No orders assigned to this agent yet.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Column (30%) */}
+                    <div className="lg:col-span-4 space-y-6">
+                        {/* Quick Actions */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50 flex items-center gap-3">
+                                <div className="p-1.5 bg-orange-50 rounded-lg text-orange-600">
+                                    <Activity className="w-4 h-4" />
+                                </div>
+                                <h3 className="text-sm font-black text-gray-800 uppercase tracking-widest">Quick Actions</h3>
+                            </div>
+                            <div className="p-6 space-y-3">
+                                <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-md shadow-orange-100">
+                                    <Edit className="w-4 h-4" /> Edit Agent
+                                </button>
+                                <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-md shadow-blue-100">
+                                    <LayoutGrid className="w-4 h-4" /> View Orders
+                                </button>
+                                <button className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-md shadow-green-100">
+                                    <Plus className="w-4 h-4" /> Assign Order
+                                </button>
+                                <button className="w-full bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-md shadow-purple-100">
+                                    <BarChart3 className="w-4 h-4" /> View Reports
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Recent Activity */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-50 flex items-center gap-3">
+                                <div className="p-1.5 bg-blue-50 rounded-lg text-blue-600">
+                                    <Clock className="w-4 h-4" />
+                                </div>
+                                <h3 className="text-sm font-black text-gray-800 uppercase tracking-widest">Recent Activity</h3>
+                            </div>
+                            <div className="p-6 space-y-6">
+                                <div className="flex gap-4">
+                                    <div className="p-2 bg-green-50 rounded-full h-fit">
+                                        <CheckCircle className="w-4 h-4 text-green-600" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-bold text-gray-800">Order Completed</p>
+                                        <p className="text-[10px] text-gray-500 font-medium mt-0.5">Order #ORD-123456</p>
+                                        <p className="text-[10px] text-gray-400 font-bold mt-1 uppercase">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <div className="p-2 bg-blue-50 rounded-full h-fit">
+                                        <Phone className="w-4 h-4 text-blue-600" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-bold text-gray-800">Customer Call</p>
+                                        <p className="text-[10px] text-gray-500 font-medium mt-0.5">Called customer for order confirmation</p>
+                                        <p className="text-[10px] text-gray-400 font-bold mt-1 uppercase">4 hours ago</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <div className="p-2 bg-yellow-50 rounded-full h-fit">
+                                        <RefreshCcw className="w-4 h-4 text-yellow-600" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-bold text-gray-800">Order Updated</p>
+                                        <p className="text-[10px] text-gray-500 font-medium mt-0.5">Updated order status to processing</p>
+                                        <p className="text-[10px] text-gray-400 font-bold mt-1 uppercase">6 hours ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Contact Information */}
+                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div className="p-6 space-y-4">
+                                <h3 className="text-sm font-black text-gray-800 uppercase tracking-widest flex items-center gap-2">
+                                    <Phone className="w-4 h-4 text-green-500" /> Contact Information
+                                </h3>
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-3">
+                                        <Mail className="w-4 h-4 text-gray-300" />
+                                        <p className="text-xs font-bold text-blue-500 hover:underline cursor-pointer">{selectedAgent.email}</p>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <Calendar className="w-4 h-4 text-gray-300" />
+                                        <p className="text-xs font-bold text-gray-500">Joined Jan 22, 2026</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6 relative">
@@ -54,13 +306,6 @@ export function ManagerAgentsPage() {
                         <p className="text-gray-500 text-sm mt-1">Manage call center agents and view performance</p>
                     </div>
                 </div>
-                <button
-                    onClick={() => setShowAddAgentModal(true)}
-                    className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all active:scale-95 shadow-sm text-sm font-medium"
-                >
-                    <UserPlus className="w-4 h-4 mr-2" />
-                    Add New Agent
-                </button>
             </div>
 
             {/* Filters and Search */}
@@ -197,54 +442,6 @@ export function ManagerAgentsPage() {
                 </div>
             )}
 
-            {/* View Agent Details Modal */}
-            {showViewModal && selectedAgent && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-                    <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
-                        <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-purple-50">
-                            <h3 className="text-lg font-bold text-gray-900 flex items-center"><User className="w-5 h-5 mr-2 text-purple-600" /> Agent Profile</h3>
-                            <button onClick={() => setShowViewModal(false)} className="p-1 rounded-full text-gray-400 hover:text-gray-600 transition-all"><X className="w-5 h-5" /></button>
-                        </div>
-                        <div className="p-6 space-y-6">
-                            <div className="flex items-center">
-                                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-2xl font-bold text-gray-500 mr-4">
-                                    {selectedAgent.name.charAt(0)}
-                                </div>
-                                <div>
-                                    <h2 className="text-xl font-bold text-gray-900">{selectedAgent.name}</h2>
-                                    <p className="text-sm text-gray-500">{selectedAgent.role}</p>
-                                    <div className="flex items-center mt-1">
-                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${selectedAgent.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}>
-                                            {selectedAgent.status}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-                                    <p className="text-xs text-gray-500 mb-1 flex items-center"><Mail className="w-3 h-3 mr-1" /> Email</p>
-                                    <p className="text-sm font-semibold text-gray-900 truncate">{selectedAgent.email}</p>
-                                </div>
-                                <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-                                    <p className="text-xs text-gray-500 mb-1 flex items-center"><Phone className="w-3 h-3 mr-1" /> Phone</p>
-                                    <p className="text-sm font-semibold text-gray-900">{selectedAgent.phone}</p>
-                                </div>
-                                <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-                                    <p className="text-xs text-gray-500 mb-1 flex items-center"><Star className="w-3 h-3 mr-1" /> Performance</p>
-                                    <p className="text-sm font-semibold text-green-600">{selectedAgent.performance}</p>
-                                </div>
-                                <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-                                    <p className="text-xs text-gray-500 mb-1 flex items-center"><Calendar className="w-3 h-3 mr-1" /> Joined</p>
-                                    <p className="text-sm font-semibold text-gray-900">{selectedAgent.joined}</p>
-                                </div>
-                            </div>
-
-                            <button onClick={() => setShowViewModal(false)} className="w-full px-4 py-3 text-sm font-bold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200">Close Profile</button>
-                        </div>
-                    </div>
-                </div>
-            )}
 
         </div>
     );

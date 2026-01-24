@@ -85,6 +85,10 @@ const roleMenus = {
     ],
     'Packaging Agent': [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/packaging/dashboard' },
+        { icon: ShoppingCart, label: 'Orders', href: '/packaging/orders' },
+        { icon: Package, label: 'Materials', href: '/packaging/materials' },
+        { icon: Settings, label: 'Materials Management', href: '/packaging/management' },
+        { icon: FileText, label: 'Reports', href: '/packaging/reports' },
     ],
     'Delivery Agent': [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/delivery/dashboard' },
