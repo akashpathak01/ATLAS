@@ -11,12 +11,26 @@ import { AdminSellersPage } from './pages/admin/AdminSellersPage';
 import { AdminOrdersPage } from './pages/admin/AdminOrdersPage';
 import { AdminProductsPage } from './pages/admin/AdminProductsPage';
 import { AdminInventoryPage } from './pages/admin/AdminInventoryPage';
+import { AdminAddProductPage } from './pages/admin/AdminAddProductPage';
+import { AdminWarehousesPage } from './pages/admin/AdminWarehousesPage';
+import { AdminAddWarehousePage } from './pages/admin/AdminAddWarehousePage';
+
 import { AdminFinancePage } from './pages/admin/AdminFinancePage';
+import { AdminPaymentManagementPage } from './pages/admin/AdminPaymentManagementPage';
+import { AdminAddPaymentPage } from './pages/admin/AdminAddPaymentPage';
+import { AdminPaymentPlatformsPage } from './pages/admin/AdminPaymentPlatformsPage';
+import { AdminFinancialReportsPage } from './pages/admin/AdminFinancialReportsPage';
+import { AdminCreateInvoicePage } from './pages/admin/AdminCreateInvoicePage';
 import { AdminSourcingPage } from './pages/admin/AdminSourcingPage';
+import { AdminCreateSourcingRequestPage } from './pages/admin/AdminCreateSourcingRequestPage';
+import { AdminSourcingRequestsPage } from './pages/admin/AdminSourcingRequestsPage';
+import { AdminSuppliersPage } from './pages/admin/AdminSuppliersPage';
 import { AdminPackagingPage } from './pages/admin/AdminPackagingPage';
 import { AdminCallCenterPage } from './pages/admin/AdminCallCenterPage';
 import { AdminDeliveryPage } from './pages/admin/AdminDeliveryPage';
 import { AdminSubscribersPage } from './pages/admin/AdminSubscribersPage';
+import { AdminRolesPage } from './pages/admin/AdminRolesPage';
+
 
 import { AuthProvider } from './context/AuthContext';
 
@@ -94,9 +108,27 @@ function App() {
             </MainLayout>
           } />
 
+          <Route path="/admin/products/add" element={
+            <MainLayout>
+              <AdminAddProductPage />
+            </MainLayout>
+          } />
+
           <Route path="/admin/inventory" element={
             <MainLayout>
               <AdminInventoryPage />
+            </MainLayout>
+          } />
+
+          <Route path="/admin/inventory/warehouses" element={
+            <MainLayout>
+              <AdminWarehousesPage />
+            </MainLayout>
+          } />
+
+          <Route path="/admin/inventory/warehouses/add" element={
+            <MainLayout>
+              <AdminAddWarehousePage />
             </MainLayout>
           } />
 
@@ -106,11 +138,74 @@ function App() {
             </MainLayout>
           } />
 
+          <Route path="/admin/finance/payments" element={
+            <MainLayout>
+              <AdminPaymentManagementPage />
+            </MainLayout>
+          } />
+
+          <Route path="/admin/finance/payments/add" element={
+            <MainLayout>
+              <AdminAddPaymentPage />
+            </MainLayout>
+          } />
+
+
+
+
+
+          <Route path="/admin/finance/platforms" element={
+            <MainLayout>
+              <AdminPaymentPlatformsPage />
+            </MainLayout>
+          } />
+
+          <Route path="/admin/finance/reports" element={
+            <MainLayout>
+              <AdminFinancialReportsPage />
+            </MainLayout>
+          } />
+
+          <Route path="/admin/finance/invoices/create" element={
+            <MainLayout>
+              <AdminCreateInvoicePage />
+            </MainLayout>
+          } />
+
+
+
+          // ...
+
+          <Route path="/admin/finance/invoices/create" element={
+            <MainLayout>
+              <AdminCreateInvoicePage />
+            </MainLayout>
+          } />
+
           <Route path="/admin/sourcing" element={
             <MainLayout>
               <AdminSourcingPage />
             </MainLayout>
           } />
+
+          <Route path="/admin/sourcing/create" element={
+            <MainLayout>
+              <AdminCreateSourcingRequestPage />
+            </MainLayout>
+          } />
+
+          <Route path="/admin/sourcing/requests" element={
+            <MainLayout>
+              <AdminSourcingRequestsPage />
+            </MainLayout>
+          } />
+
+          <Route path="/admin/sourcing/suppliers" element={
+            <MainLayout>
+              <AdminSuppliersPage />
+            </MainLayout>
+          } />
+
 
           <Route path="/admin/packaging" element={
             <MainLayout>
@@ -133,6 +228,12 @@ function App() {
           <Route path="/admin/subscribers" element={
             <MainLayout>
               <AdminSubscribersPage />
+            </MainLayout>
+          } />
+
+          <Route path="/admin/roles" element={
+            <MainLayout>
+              <AdminRolesPage />
             </MainLayout>
           } />
 

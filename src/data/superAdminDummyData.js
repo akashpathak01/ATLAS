@@ -76,6 +76,28 @@ export const financeData = {
     ]
 };
 
+export const financeStats = {
+    totalRevenue: 'AED 1,245,000',
+    todaysSales: 'AED 12,450',
+    pendingPayments: 12,
+    monthlyGrowth: '15%'
+};
+
+export const paymentsData = [
+    { id: 'PAY-001', orderId: '#ORD-001', customer: 'Ahmed Ali', amount: 'AED 450', method: 'Credit Card', status: 'Completed', date: '2024-03-20' },
+    { id: 'PAY-002', orderId: '#ORD-002', customer: 'Sarah Smith', amount: 'AED 1,200', method: 'Bank Transfer', status: 'Pending', date: '2024-03-19' },
+    { id: 'PAY-003', orderId: '#ORD-003', customer: 'John Doe', amount: 'AED 850', method: 'Cash', status: 'Completed', date: '2024-03-18' },
+    { id: 'PAY-004', orderId: '#ORD-004', customer: 'Fatima Omar', amount: 'AED 3,400', method: 'Credit Card', status: 'Failed', date: '2024-03-17' },
+    { id: 'PAY-005', orderId: '#ORD-005', customer: 'Mike Ross', amount: 'AED 220', method: 'Wallet', status: 'Completed', date: '2024-03-16' },
+];
+
+export const paymentPlatformsData = [
+    { id: 1, name: 'Stripe', type: 'Payment Gateway', status: 'Active', transactions: 1250, volume: 'AED 450,000' },
+    { id: 2, name: 'PayPal', type: 'Wallet', status: 'Active', transactions: 850, volume: 'AED 220,000' },
+    { id: 3, name: 'Bank Transfer', type: 'Offline', status: 'Active', transactions: 45, volume: 'AED 1,500,000' },
+    { id: 4, name: 'Cash on Delivery', type: 'Offline', status: 'Active', transactions: 2200, volume: 'AED 180,000' },
+];
+
 // Sourcing Page Data
 export const sourcingData = [
     { id: 'SRC-001', product: 'Wireless Earbuds', supplier: 'Global Tech Suppliers', quantity: 500, status: 'Pending', requestDate: '2026-01-18', expectedDate: '2026-02-15' },
@@ -162,4 +184,12 @@ export const rolesData = [
     { id: 3, name: 'Seller', users: 45, permissions: ['Products', 'Orders', 'Finance'], description: 'Seller portal access', status: 'Active' },
     { id: 4, name: 'Call Center Agent', users: 12, permissions: ['Orders', 'Customers'], description: 'Customer support access', status: 'Active' },
     { id: 5, name: 'Stock Keeper', users: 8, permissions: ['Inventory', 'Products'], description: 'Inventory management', status: 'Active' },
+];
+
+// Warehouses Page Data
+export const superAdminWarehousesData = [
+    { id: 1, name: 'Dubai Main Warehouse', location: 'Dubai Investment Park', description: 'Main distribution center for Dubai region', status: 'Active' },
+    { id: 2, name: 'Abu Dhabi Hub', location: 'Mussafah Industrial Area', description: 'Regional hub for Abu Dhabi and Al Ain', status: 'Active' },
+    { id: 3, name: 'Sharjah Storage', location: 'Sharjah Industrial Area', description: 'Overflow storage and returns processing', status: 'Inactive' },
+    { id: 4, name: 'Northern Emirates Depot', location: 'Ras Al Khaimah', description: 'Serving Northern Emirates', status: 'Active' },
 ];

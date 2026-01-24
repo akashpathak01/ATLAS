@@ -37,7 +37,8 @@ const roleMenus = {
         { icon: Headphones, label: 'Call Center', href: '/admin/call-center' },
         { icon: Truck, label: 'Delivery', href: '/admin/delivery' },
         { icon: UserCheck, label: 'Subscribers', href: '/admin/subscribers' },
-        // { icon: Shield, label: 'Roles', href: '/admin/roles' }, // Roles page not implemented yet
+        { icon: Shield, label: 'Roles', href: '/admin/roles' },
+
     ],
     'Admin': [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/admin/dashboard' },
@@ -120,7 +121,7 @@ export function Sidebar({ isOpen, onClose }) {
                     {/* Header Section */}
                     <div className="px-6 pt-6 pb-2">
                         <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
-                            ADMIN
+                            {currentRole}
                         </h3>
                     </div>
 
